@@ -1,16 +1,38 @@
+class BG {
+    constructor() {
+        this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
+        this.x = 0;
+        this.y = 0;
+    }
+
+    scroll() {
+        this.y += 0.1;
+
+        if (this.bg.y > 600) {
+            ctx.drawImage(Resources.get(this.bg), this.x, this.y = 0);
+        }
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.bg), this.x, this.y);
+    }
+}
+
 class Enemy {
-    constructor(x, y, speed) {
-        this.sprite = 'images/enemy-bug.png';
+    constructor(sprite, x, y, width, height) {
+        this.sprite = sprite;
         this.x = x;
         this.y = y;
-        this.speed = speed;
+        this.width = width;
+        this.height = height;
+        this.speed = Math.floor(Math.random() * 3) + 1;
     }
 
     update(dt) {
-        this.x += this.speed;
+        this.y += this.speed;
 
-        if (this.x > 505) {
-            this.x = 0;
+        if (this.y > 600) {
+            this.y = 0;
         }
     }
 
@@ -19,75 +41,194 @@ class Enemy {
     }
 }
 
-class Player {
+class Bullet {
     constructor(x, y) {
-        this.sprite = 'images/char-boy.png';
+        this.bullet = 'images/Key.png';
         this.x = x;
         this.y = y;
+        this.width = 45;
+        this.height = 85;
         this.minBoundsX = 0;
-        this.maxBoundsX = 440;
-        this.minBoundsY = -20;
-        this.maxBoundsY = 380;
-        this.moveSound = document.getElementById("moveSound");
+        this.maxBoundsX = 725;
+        this.minBoundsY = 0;
+        this.maxBoundsY = 525;
+        this.bulletSound = document.getElementById("bulletSound");
+        this.i = 0;
     }
 
     update() {
+        this.y -= 5;
     }
 
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    render(key) {
+        ctx.drawImage(Resources.get(this.bullet), this.x, this.y);
     }
 
     handleInput(key) {
-        switch(key) {
-           case 'up':
-           case 'w':
-                this.y -= 80;
-                console.log(`current yPos Player: ${this.y}`);
-                this.moveSound.play();
-                break;
-            case 'down':
-            case 's':
-                    this.y += 80;
-                    console.log(`current yPos Player: ${this.y}`);
-                    this.moveSound.play();
-                    break;
-            case 'left':
-            case 'a':
-                    this.x -= 100;
-                    this.moveSound.play();
-                    break;
-            case 'right':
-            case 'd':
-                    this.x += 100;
-                    this.moveSound.play();
-                    break;
-        } 
+        if (key === 'spacebar' && this.i % 2 === 0) {
+            fire(`bullet${this.i}`);
+            bullet.bulletSound.play();
+            console.log(`bullet${this.i}`);
+            
+        }
+        this.i++;
     }
 
     bounds() { 
         if (this.x >= this.maxBoundsX) {
-            this.x = 400;
+            this.bullet = null;
+        } else if (this.x <= this.minBoundsX) {
+            this.bullet = null;
+        } 
+        
+        if (this.y >= this.maxBoundsY) {
+            this.bullet = null;
+        } else if (this.y <= this.minBoundsY) {
+            this.bullet = null;
+        }
+    }
+}
+
+
+
+class Player {
+    constructor(x, y) {
+        this.sprite = 'images/char-horn-girl.png';
+        this.particle = 'images/particleBlue.png';
+        this.x = x;
+        this.y = y;
+        this.width = 80;
+        this.height = 80;
+        this.minBoundsX = 0;
+        this.maxBoundsX = 725;
+        this.minBoundsY = 0;
+        this.maxBoundsY = 525;
+        this.health = 3;
+        this.score = 0;
+        this.moveSound = document.getElementById("moveSound");
+        
+    }
+
+    update() {
+    }
+    
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+
+     handleInput(key) {
+        if (key === 'up' || key === 'w') {
+            this.y -= 8;
+            // console.log(`current yPos Player: ${this.y}`);
+            //  this.moveSound.play();
+        }
+        
+        if (key === 'down' || key === 's') {
+            this.y += 8;
+            // console.log(`current yPos Player: ${this.y}`);
+            //  this.moveSound.play();
+        }
+        
+        if (key === 'left' || key === 'a') {
+            this.x -= 10;
+            // console.log(`current xPos Player: ${this.x}`);
+            //  this.moveSound.play();
+        }
+
+        if (key === 'right' || key === 'd') {
+            this.x += 10;
+            // console.log(`current xPos Player: ${this.x}`);
+            //  this.moveSound.play();
+        }
+
+        /*switch(key) {
+            case 'up':
+            case 'w':
+                 this.y -= 8;
+                 console.log(`current yPos Player: ${this.y}`);
+                //  this.moveSound.play();
+                 break;
+             case 'down':
+             case 's':
+                     this.y += 8;
+                     console.log(`current yPos Player: ${this.y}`);
+                    //  this.moveSound.play();
+                     break;
+             case 'left':
+             case 'a':
+                     this.x -= 10;
+                    //  this.moveSound.play();
+                     break;
+             case 'right':
+             case 'd':
+                     this.x += 10;
+                    //  this.moveSound.play();
+                     break;
+         } */
+     }
+
+    bounds() { 
+        if (this.x >= this.maxBoundsX) {
+            this.x = 725;
         } else if (this.x <= this.minBoundsX) {
             this.x = 0;
         } 
         
         if (this.y >= this.maxBoundsY) {
-            this.y = 380;
+            this.y = 525;
         } else if (this.y <= this.minBoundsY) {
-            this.y = -20;
+            this.y = 0;
         }
     }
+
+    
 }
 
-function checkCollision() {
-    
+let time = 0;
+
+function timer() {
+    time++;
+    console.log(`time: ${time}`);
+}
+
+setTimeout( () => {timer();}, 1000);
+
+const bg = new BG();
+
+const bulletArr = [];
+
+function fire(name) {
+    name = new Bullet((player.x + 30), player.y - 40);
+    bulletArr.push(name);
+     //  this.moveSound.play();
+}
+
+
+function bulletHit() {
     for (let i = 0; i < allEnemies.length; i++) {
-        if (player.x === allEnemies[i].x && player.y === allEnemies[i].y) {
-            console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
-            player.x = 200;
-            player.y = 380;
-            console.log(`After hit yPos Player: ${player.y}`);
+        for (let j = 0; j < bulletArr.length; j++) {
+           if (bulletArr[j].x < allEnemies[i].x + allEnemies[i].width && 
+               bulletArr[j].x + bulletArr[j].width > allEnemies[i].x  &&
+               bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
+               bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
+                   console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
+                   allEnemies.splice(i, 1);
+                   bulletArr.splice(j, 1);
+           }
+        }
+   }
+}
+
+
+function checkCollision() {
+    for (let i = 0; i < allEnemies.length; i++) {
+        if (player.x < allEnemies[i].x + allEnemies[i].width && 
+            player.x + player.width > allEnemies[i].x  &&
+            player.y < allEnemies[i].y + allEnemies[i].height &&
+            player.y + player.height > allEnemies[i].y) {
+            // console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
+            player.health--;
+            console.log(`Health after hit: ${player.health}`);
         }
     }
 }
@@ -95,60 +236,29 @@ function checkCollision() {
 
 const player = new Player(200, 380);
 
+let bullet = new Bullet(player.x, player.y);
+
 const randSpeed1 = Math.floor(Math.random() * 6) + 1,
       randSpeed2 = Math.floor(Math.random() * 6) + 1,
       randSpeed3 = Math.floor(Math.random() * 6) + 1;
 
-const enemy1 = new Enemy(0, 60, randSpeed1),
-      enemy2 = new Enemy(300, 140, randSpeed2),
-      enemy3 = new Enemy(100, 140, randSpeed2),
-      enemy4 = new Enemy(215, 220, randSpeed3),
-      allEnemies = [enemy1, enemy2, enemy3, enemy4];
+const enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 100, 70),
+      enemy2 = new Enemy('images/enemy-bug.png', 300, 140, 100, 70),
+      enemy3 = new Enemy('images/enemy-bug.png', 100, 140, 100, 70),
+      enemy4 = new Enemy('images/enemy-bug.png', 215, 220, 100, 70),
+      enemy5 = new Enemy('images/Rock.png', 415, 220, 87, 86),
+      allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
 console.log(`enemy1 speed: ${enemy1.speed}`);
 console.log(`enemy2 speed: ${enemy2.speed}`);
 console.log(`enemy3 speed: ${enemy3.speed}`);
 console.log(`enemy4 speed: ${enemy4.speed}`); 
-
-
-
-
-// Enemies our player must avoid
-/*var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};*/
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+console.log(`enemy5 speed: ${enemy5.speed}`); 
 
 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keydown', function(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -162,4 +272,29 @@ document.addEventListener('keyup', function(e) {
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
+
+});
+
+// setTimeout( () => {
+//     let t = 1;
+//     while (t > 0) {
+//         (function (e) {
+//             var allowedKeys = {
+//                 32: 'spacebar'
+//             };
+        
+//             bullet.handleInput(allowedKeys[e.keyCode]);
+        
+//         })();
+//         t++;
+//     }
+// }, 400);
+
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        32: 'spacebar'
+    };
+
+    bullet.handleInput(allowedKeys[e.keyCode]);
+
 });
