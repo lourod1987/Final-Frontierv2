@@ -1,3 +1,6 @@
+
+
+
 class BG {
     constructor(x, y) {
         this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
@@ -81,9 +84,7 @@ class Bullet {
             this.bullet = null;
         } 
         
-        if (this.y >= this.maxBoundsY) {
-            this.bullet = null;
-        } else if (this.y <= this.minBoundsY) {
+        if (this.y <= this.minBoundsY) {
             this.bullet = null;
         }
     }
@@ -102,14 +103,14 @@ class Player {
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
         this.minBoundsY = 0;
-        this.maxBoundsY = 525;
+        this.maxBoundsY = 520;
         this.health = 3;
         this.score = 0;
         this.moveSound = document.getElementById("moveSound");
         
     }
 
-    update() {
+    update(dt) {
     }
     
     render() {
@@ -175,28 +176,34 @@ class Player {
         } 
         
         if (this.y >= this.maxBoundsY) {
-            this.y = 525;
+            this.y = 520;
         } else if (this.y <= this.minBoundsY) {
             this.y = 0;
         }
     }
-
-    
 }
 
-// let time = 0;
 
-// function timer() {
-//     time++;
-//     console.log(`time: ${time}`);
-// }
 
-// setTimeout( () => {timer();}, 1000);
+class Explosion {
+    constructor(x, y) {
+        this.explosion = 'images/particleBlue.png';
+        this.x = x;
+        this.y = y;
+        this.explosionSound = document.getElementById("explosionSound");
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.explosion), this.x, this.y);
+    }
+}
+
 
 const bg = new BG(0, 1);
 const bg1 = new BG(0, -599);
 
 const bulletArr = [];
+const explosionArr = [];
 
 function fire(name) {
     name = new Bullet((player.x + 30), player.y - 40);
@@ -204,8 +211,20 @@ function fire(name) {
      //  this.moveSound.play();
 }
 
+function delExplosion(name) {
+    explosionArr.pop();
+    delete name;
+}
 
-function bulletHit() {
+function createExplosion(name, x, y) {
+    name = new Explosion(x, y);
+    explosionArr.push(name);
+    name.explosionSound.play();
+}
+
+
+function bulletChecks() {
+    let e = 0;
     for (let i = 0; i < allEnemies.length; i++) {
         for (let j = 0; j < bulletArr.length; j++) {
            if (bulletArr[j].x < allEnemies[i].x + allEnemies[i].width && 
@@ -213,10 +232,21 @@ function bulletHit() {
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
+                   createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
+                   e++;
+                   
                    allEnemies.splice(i, 1);
                    bulletArr.splice(j, 1);
+                   
+                   
            }
         }
+   }
+
+   for (let i = 0; i < bulletArr.length; i++) {
+       if (bulletArr[i].y < -40) {
+            bulletArr.splice(i, 1);
+       }
    }
 }
 

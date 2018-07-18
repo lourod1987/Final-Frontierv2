@@ -78,6 +78,16 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        if (explosionArr > 0) {
+            setTimeout( () => {delExplosion(`explosion${e}`);}, 2000);
+        }
+
+        let r = 0;
+        if (explosionArr.length > 0) {
+            explosionArr[r].render();
+            r++;
+        }
+        
         updateEntities(dt);
         player.bounds();
         bullet.bounds();
@@ -88,8 +98,8 @@ var Engine = (function(global) {
         //     createNewBG(bg1);
         // }
 
-        if (bulletArr.length > 1) {
-            bulletHit();
+        if (bulletArr.length > 0) {
+            bulletChecks();
         }
         
     }
@@ -109,7 +119,7 @@ var Engine = (function(global) {
             bullet.update();
         });
 
-        player.update();
+        player.update(dt);
         
         
     }
@@ -185,6 +195,11 @@ var Engine = (function(global) {
         bulletArr.forEach(function(bullet) {
             bullet.render();
         });
+        let r = 0;
+        if (explosionArr.length > 0) {
+            explosionArr[r].render();
+            r++;
+        }
         
         player.render();
     }
