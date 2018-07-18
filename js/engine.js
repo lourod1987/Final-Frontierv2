@@ -83,6 +83,11 @@ var Engine = (function(global) {
         bullet.bounds();
         checkCollision();
         bg.scroll();
+        bg1.scroll();
+        // if (bg.y > 0) {
+        //     createNewBG(bg1);
+        // }
+
         if (bulletArr.length > 1) {
             bulletHit();
         }
@@ -173,7 +178,7 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         bg.render();
-
+        bg1.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });

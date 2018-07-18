@@ -1,15 +1,15 @@
 class BG {
-    constructor() {
+    constructor(x, y) {
         this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
     }
 
     scroll() {
-        this.y += 0.1;
+        this.y += 0.2;
 
-        if (this.bg.y > 600) {
-            ctx.drawImage(Resources.get(this.bg), this.x, this.y = 0);
+        if (this.y > 600) {
+            this.y = -599;
         }
     }
 
@@ -184,16 +184,17 @@ class Player {
     
 }
 
-let time = 0;
+// let time = 0;
 
-function timer() {
-    time++;
-    console.log(`time: ${time}`);
-}
+// function timer() {
+//     time++;
+//     console.log(`time: ${time}`);
+// }
 
-setTimeout( () => {timer();}, 1000);
+// setTimeout( () => {timer();}, 1000);
 
-const bg = new BG();
+const bg = new BG(0, 1);
+const bg1 = new BG(0, -599);
 
 const bulletArr = [];
 
