@@ -232,6 +232,8 @@ function bulletChecks() {
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
+                   player.score += 10;
+                   console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
                    createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
                    e++;
                    
