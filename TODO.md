@@ -18,7 +18,7 @@ List of things to get done / ideas I want to implement:
     * Get explosions fully working
     * Get particle effects working (mainly for ship booster)
     * Get Title screen running, game, loss state, win state, credits (each pushes into new state)
-    * Get powerups running (alter rate of fire or type of bullet, special attacks, shields)
+    * Get powerups running (alter rate of fire or type of bullet, special attacks, shields) {optional}
     * Get score text displaying on game screen
     * Get health working correctly
     * Get health displaying on screen
@@ -28,6 +28,7 @@ List of things to get done / ideas I want to implement:
     * Create game win state
     * Create game loss state
     * Allow game restart
-    * Set up velocity transfer on collision
-    * Improve player movement (needs to be smoothed)
-    * Get controls working smoothly / in parallel (in other words the ability to press both w and d key to move vertically and spacebar all without any one action being stopped by multiple keypresses)
+    * Allow game pause {optional}
+    * Set up velocity transfer on collision 
+    * Improve player movement (needs to be smoothed) {optional}
+    * Get controls working smoothly / in parallel (in other words the ability to press both w and d key to move vertically and spacebar all without any one action being stopped by multiple keypresses) {optional}
