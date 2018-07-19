@@ -94,6 +94,7 @@ var Engine = (function(global) {
         checkCollision();
         bg.scroll();
         bg1.scroll();
+        uiText.update();
         // if (bg.y > 0) {
         //     createNewBG(bg1);
         // }
@@ -114,6 +115,9 @@ var Engine = (function(global) {
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
+        });
+        allEnemies.forEach(function(enemy) {
+            enemy.bounds();
         });
         bulletArr.forEach(function(bullet) {
             bullet.update();
@@ -191,6 +195,7 @@ var Engine = (function(global) {
         bg1.render();
         uiBG.render();
         ui.render();
+        uiText.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -250,6 +255,16 @@ var Engine = (function(global) {
 //score
 // canvasContext.fillText(playerScore, 100, 50);
 // canvasContext.fillText(compScore, canvas.width - 100, 50);
+
+// ctx.font="30px Verdana";
+// // Create gradient
+// var gradient=ctx.createLinearGradient(0,0,c.width,0);
+// gradient.addColorStop("0","magenta");
+// gradient.addColorStop("0.5","blue");
+// gradient.addColorStop("1.0","red");
+// // Fill with gradient
+// ctx.fillStyle=gradient;
+// ctx.fillText("Big smile!",10,90); 
 
 // function colorCircle(centerX, centerY, radius, drawColor) {
 //     canvasContext.fillStyle = drawColor;
