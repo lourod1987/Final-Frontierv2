@@ -38,13 +38,26 @@ class UI extends BG {
         this.colorFill = colorFill;
     }
 
-    update() {
-
-    }
-
     render() {
         ctx.fillStyle = this.colorFill;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+class Text extends BG {
+    constructor(score, x, y) {
+        super(x, y);
+        this.score = score;
+    }
+
+    update() {
+        ctx.fillText(this.score, this.x, this.y);
+    }
+
+    render() {
+        ctx.font="bold 24px Verdana, san-serif";
+        ctx.fillStyle = "white";
+        ctx.fillText(this.score, this.x, this.y);
     }
 }
 
@@ -56,18 +69,30 @@ class Enemy {
         this.width = width;
         this.height = height;
         this.speed = Math.floor(Math.random() * 3) + 1;
+        this.minBoundsX = 0;
+        this.maxBoundsX = 725;
+        // this.minBoundsY = 0;
+        // this.maxBoundsY = 520;
     }
 
     update(dt) {
         this.y += this.speed;
 
         if (this.y > 600) {
-            this.y = 0;
+            this.y = -20;
         }
     }
 
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+
+    bounds() { 
+        if (this.x >= this.maxBoundsX) {
+            this.x = 725;
+        } else if (this.x <= this.minBoundsX) {
+            this.x = 0;
+        } 
     }
 }
 
@@ -233,7 +258,7 @@ class Explosion {
 const bg = new BG(0, 1);
 const bg1 = new BG(0, -599);
 
-const uiBG = new UI(625, 5, 170, 120, 'rgba(255, 255, 255, 0.75)');
+const uiBG = new UI(630, 10, 160, 110, 'rgba(255, 255, 255, 0.75)');
 const ui = new UI(635, 15, 150, 100, 'rgba(0, 168, 120, 0.75)');
 
 
@@ -294,6 +319,9 @@ function checkCollision() {
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
             // console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
+            allEnemies[i].x -= 50;
+            allEnemies[i].y -= 50;
+            
             player.x += 50;
             player.y += 50;
             if (h % 5 ===0) {
@@ -307,6 +335,8 @@ function checkCollision() {
 
 
 const player = new Player(200, 380);
+
+const uiText = new Text(`Score: ${player.score}`, 650, 40);
 
 let bullet = new Bullet(player.x, player.y);
 
