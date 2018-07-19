@@ -1,5 +1,4 @@
 # TODO
-===
 
 List of things to get done / ideas I want to implement:
 
