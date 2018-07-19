@@ -1,6 +1,3 @@
-
-
-
 class BG {
     constructor(x, y) {
         this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
@@ -18,6 +15,36 @@ class BG {
 
     render() {
         ctx.drawImage(Resources.get(this.bg), this.x, this.y);
+    }
+}
+
+function colorCircle(centerX, centerY, radius, drawColor) {
+    canvasContext.fillStyle = drawColor;
+    canvasContext.beginPath();
+    canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+    canvasContext.fill();
+}
+
+function colorRect(leftX, topY, width, height, drawColor) {
+    canvasContext.fillStyle = drawColor;
+    canvasContext.fillRect(leftX, topY, width, height);
+}
+
+class UI extends BG {
+    constructor(x, y, width, height, colorFill) {
+        super(x, y);
+        this.width = width;
+        this.height = height;
+        this.colorFill = colorFill;
+    }
+
+    update() {
+
+    }
+
+    render() {
+        ctx.fillStyle = this.colorFill;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
@@ -119,6 +146,10 @@ class Player {
 
      handleInput(key) {
         if (key === 'up' || key === 'w') {
+            if (key === 'w' && key === 'd') {
+                this.y -= 8;
+                this.x += 8;
+            }
             this.y -= 8;
             // console.log(`current yPos Player: ${this.y}`);
             //  this.moveSound.play();
@@ -202,6 +233,10 @@ class Explosion {
 const bg = new BG(0, 1);
 const bg1 = new BG(0, -599);
 
+const uiBG = new UI(625, 5, 170, 120, 'rgba(255, 255, 255, 0.75)');
+const ui = new UI(635, 15, 150, 100, 'rgba(0, 168, 120, 0.75)');
+
+
 const bulletArr = [];
 const explosionArr = [];
 
@@ -238,9 +273,7 @@ function bulletChecks() {
                    e++;
                    
                    allEnemies.splice(i, 1);
-                   bulletArr.splice(j, 1);
-                   
-                   
+                   bulletArr.splice(j, 1);      
            }
         }
    }
@@ -254,13 +287,19 @@ function bulletChecks() {
 
 
 function checkCollision() {
+    let h = 0;
     for (let i = 0; i < allEnemies.length; i++) {
         if (player.x < allEnemies[i].x + allEnemies[i].width && 
             player.x + player.width > allEnemies[i].x  &&
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
             // console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
-            player.health--;
+            player.x += 50;
+            player.y += 50;
+            if (h % 5 ===0) {
+                player.health--;
+                h++;
+            }
             console.log(`Health after hit: ${player.health}`);
         }
     }
