@@ -45,19 +45,16 @@ class UI extends BG {
 }
 
 class Text extends BG {
-    constructor(score, x, y) {
+    constructor(x, y) {
         super(x, y);
-        this.score = score;
-    }
-
-    update() {
-        ctx.fillText(this.score, this.x, this.y);
+        this.score = 0;
+        this.text = "Score: ";
     }
 
     render() {
-        ctx.font="bold 24px Verdana, san-serif";
+        ctx.font="bold 18px Verdana, san-serif";
         ctx.fillStyle = "white";
-        ctx.fillText(this.score, this.x, this.y);
+        ctx.fillText(this.text + this.score, this.x, this.y);
     }
 }
 
@@ -122,7 +119,7 @@ class Bullet {
     handleInput(key) {
         if (key === 'spacebar' && this.i % 2 === 0) {
             fire(`bullet${this.i}`);
-            bullet.bulletSound.play();
+            this.bulletSound.play();
             console.log(`bullet${this.i}`);
             
         }
@@ -293,6 +290,7 @@ function bulletChecks() {
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
                    player.score += 10;
+                   uiText.score += 10;
                    console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
                    createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
                    e++;
@@ -333,10 +331,9 @@ function checkCollision() {
     }
 }
 
-
 const player = new Player(200, 380);
 
-const uiText = new Text(`Score: ${player.score}`, 650, 40);
+const uiText = new Text(640, 40);
 
 let bullet = new Bullet(player.x, player.y);
 
