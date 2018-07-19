@@ -151,7 +151,7 @@ var Engine = (function(global) {
             numRows = 6,
             numCols = 5,
             row, col;
-            const bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
+            // const bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
 
         
         // Before drawing, clear existing canvas
@@ -189,6 +189,8 @@ var Engine = (function(global) {
          */
         bg.render();
         bg1.render();
+        uiBG.render();
+        ui.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -233,3 +235,32 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 })(this);
+
+
+
+//Ball
+// colorCircle(ballX, ballY, 10, '#fff');
+        
+// //Left Paddle
+// colorRect(10, paddeLeftY, paddleThickness, paddleH, '#fff');
+
+// //Right Paddle
+// colorRect(canvas.width - 25, paddeRightY, paddleThickness, paddleH, '#fff');
+
+//score
+// canvasContext.fillText(playerScore, 100, 50);
+// canvasContext.fillText(compScore, canvas.width - 100, 50);
+
+// function colorCircle(centerX, centerY, radius, drawColor) {
+//     canvasContext.fillStyle = drawColor;
+//     canvasContext.beginPath();
+//     canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+//     canvasContext.fill();
+// }
+
+// function colorRect(leftX, topY, width, height, drawColor) {
+//     canvasContext.fillStyle = drawColor;
+//     canvasContext.fillRect(leftX, topY, width, height);
+// }
+
+
