@@ -47,7 +47,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Script in Boss event at end of final level *{optional}*
     * Script in Boss behavior with unique attack patterns and health bar (or visible dmg using img swap) *{optional}*
     * Create game win state
-    * Create game loss state
+    * Create game loss state **[done!]**
     * Allow game restart
     * Allow game pause *{optional}*
     * Set up velocity transfer on collision
