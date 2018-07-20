@@ -1,3 +1,28 @@
+class Game {
+    constructor() {
+        this.titleBG = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
+        this.run = true;
+    }
+
+    update() {
+
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
+    }
+
+    handleInput(key) {
+        switch(key) {
+            case 'enter':
+                this.run = false;
+                break;
+        }
+    }
+
+}
+
+
 class BG {
     constructor(x, y) {
         this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
@@ -5,7 +30,7 @@ class BG {
         this.y = y;
     }
 
-    scroll() {
+    scroll(dt) {
         this.y += 0.2;
 
         if (this.y > 600) {
@@ -25,11 +50,6 @@ function colorCircle(centerX, centerY, radius, drawColor) {
     canvasContext.fill();
 }
 
-function colorRect(leftX, topY, width, height, drawColor) {
-    canvasContext.fillStyle = drawColor;
-    canvasContext.fillRect(leftX, topY, width, height);
-}
-
 class UI extends BG {
     constructor(x, y, width, height, colorFill) {
         super(x, y);
@@ -44,11 +64,12 @@ class UI extends BG {
     }
 }
 
+
 class Text extends BG {
-    constructor(x, y) {
+    constructor(text, x, y) {
         super(x, y);
         this.score = 0;
-        this.text = "Score: ";
+        this.text = text;
     }
 
     render() {
@@ -57,6 +78,43 @@ class Text extends BG {
         ctx.fillText(this.text + this.score, this.x, this.y);
     }
 }
+
+
+class Time extends Text {
+    constructor( text, x, y) {
+        super( text, x, y);
+        this.timer = [0, 0];
+        this.timeRunning = false;
+        this.i = 0;
+    }
+
+    update(dt) {
+        if (this.i >= 60) {
+            this.timer[1]++;
+
+            if (this.timer[1] > 59) {
+                this.timer[1] = 0;
+                this.timer[0]++;
+            }
+            this.i = 0;
+        }
+        this.i++;
+    }
+
+    render() {
+        ctx.font="bold 18px Verdana, san-serif";
+        ctx.fillStyle = "white";
+        ctx.fillText(this.text + leadingZero(this.timer[0]) + ":" + leadingZero(this.timer[1]), this.x, this.y);
+    }
+
+    leadingZero(time) {
+        if (time <= 9) {
+            time = `0${time}`;
+          }
+          return time;
+    }
+}
+
 
 class Enemy {
     constructor(sprite, x, y, width, height) {
@@ -68,8 +126,10 @@ class Enemy {
         this.speed = Math.floor(Math.random() * 3) + 1;
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
+        this.i = 0;
+        this.moveX = 0;
         // this.minBoundsY = 0;
-        // this.maxBoundsY = 520;
+        this.maxBoundsY = 520;
     }
 
     update(dt) {
@@ -78,6 +138,23 @@ class Enemy {
         if (this.y > 600) {
             this.y = -20;
         }
+        let m = 0;
+        if (this.i >= 10) {
+            if (this.moveX % 2 === 0){
+                for(let j = 0; j < 15; j++) {
+                    this.x++;
+                }
+                this.moveX++;
+            } else {
+                for(let j = 0; j < 15; j++) {
+                    this.x--;
+                }
+                this.moveX++;
+            }
+
+            this.i = 0;
+        }
+        this.i++;
     }
 
     render() {
@@ -89,7 +166,11 @@ class Enemy {
             this.x = 725;
         } else if (this.x <= this.minBoundsX) {
             this.x = 0;
-        } 
+        }
+        
+        if (this.y >= this.maxBoundsY) {
+            this.y = 520;
+        }
     }
 }
 
@@ -117,7 +198,7 @@ class Bullet {
     }
 
     handleInput(key) {
-        if (key === 'spacebar' && this.i % 2 === 0) {
+        if (key === 'spacebar' /*&& this.i % 2 === 0*/) {
             fire(`bullet${this.i}`);
             this.bulletSound.play();
             console.log(`bullet${this.i}`);
@@ -140,7 +221,6 @@ class Bullet {
 }
 
 
-
 class Player {
     constructor(x, y) {
         this.sprite = 'images/char-horn-girl.png';
@@ -154,20 +234,26 @@ class Player {
         this.minBoundsY = 0;
         this.maxBoundsY = 520;
         this.health = 3;
-        this.score = 0;
         this.moveSound = document.getElementById("moveSound");
-        
     }
 
     update(dt) {
+        if (this.health === 2) {
+            // for (let i = 0; i < 10000; i++)
+            //     if (i  % 2 === 0) {
+                    ctx.globalAlpha = 0.5;
+            //     } else {
+            //         player.filter = 'opacity(100%)';
+            // }
+        }
     }
     
-    render() {
+    render(dt) {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
      handleInput(key) {
-        if (key === 'up' || key === 'w') {
+       /* if (key === 'up' || key === 'w') {
             if (key === 'w' && key === 'd') {
                 this.y -= 8;
                 this.x += 8;
@@ -193,32 +279,32 @@ class Player {
             this.x += 10;
             // console.log(`current xPos Player: ${this.x}`);
             //  this.moveSound.play();
-        }
+        }*/
 
-        /*switch(key) {
+        switch(key) {
             case 'up':
             case 'w':
-                 this.y -= 8;
-                 console.log(`current yPos Player: ${this.y}`);
+                this.y -= 8;
+                // console.log(`current yPos Player: ${this.y}`);
                 //  this.moveSound.play();
-                 break;
-             case 'down':
-             case 's':
-                     this.y += 8;
-                     console.log(`current yPos Player: ${this.y}`);
-                    //  this.moveSound.play();
-                     break;
-             case 'left':
-             case 'a':
-                     this.x -= 10;
-                    //  this.moveSound.play();
-                     break;
-             case 'right':
-             case 'd':
-                     this.x += 10;
-                    //  this.moveSound.play();
-                     break;
-         } */
+                break;
+            case 'down':
+            case 's':
+                this.y += 8;
+                // console.log(`current yPos Player: ${this.y}`);
+                //  this.moveSound.play();
+                break;
+            case 'left':
+            case 'a':
+                this.x -= 10;
+                //  this.moveSound.play();
+                break;
+            case 'right':
+            case 'd':
+                this.x += 10;
+                //  this.moveSound.play();
+                break;
+         }
      }
 
     bounds() { 
@@ -237,7 +323,6 @@ class Player {
 }
 
 
-
 class Explosion {
     constructor(x, y) {
         this.explosion = 'images/particleBlue.png';
@@ -252,7 +337,12 @@ class Explosion {
 }
 
 
+const title = new Game();
+
+// const game = new Game();
+
 const bg = new BG(0, 1);
+
 const bg1 = new BG(0, -599);
 
 const uiBG = new UI(630, 10, 160, 110, 'rgba(255, 255, 255, 0.75)');
@@ -261,6 +351,13 @@ const ui = new UI(635, 15, 150, 100, 'rgba(0, 168, 120, 0.75)');
 
 const bulletArr = [];
 const explosionArr = [];
+
+function leadingZero(time) {
+    if (time <= 9) {
+      time = `0${time}`;
+    }
+    return time;
+  }
 
 function fire(name) {
     name = new Bullet((player.x + 30), player.y - 40);
@@ -289,7 +386,6 @@ function bulletChecks() {
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
-                   player.score += 10;
                    uiText.score += 10;
                    console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
                    createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
@@ -312,28 +408,49 @@ function bulletChecks() {
 function checkCollision() {
     let h = 0;
     for (let i = 0; i < allEnemies.length; i++) {
-        if (player.x < allEnemies[i].x + allEnemies[i].width && 
+        if (player.x < allEnemies[i].x + allEnemies[i].width &&
             player.x + player.width > allEnemies[i].x  &&
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
             // console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
-            allEnemies[i].x -= 50;
-            allEnemies[i].y -= 50;
+            // allEnemies[i].x -= 25;
+            // allEnemies[i].y -= 25;
             
-            player.x += 50;
-            player.y += 50;
-            if (h % 5 ===0) {
+            // player.x += 25;
+            // player.y += 25;
+            if (player.y + player.height <  allEnemies[i].y + allEnemies[i].height) {
+                player.y = allEnemies[i].y + allEnemies[i].height;
+             } //else if (player.y + player.height >  allEnemies[i].y) {
+            //     player.y -= allEnemies[i].y - allEnemies[i].height;
+            // }
+            if (player.x + player.width > allEnemies[i].x + allEnemies[i].width) {
+                player.x = allEnemies[i].x + allEnemies[i].width;
+            } else if (player.x + player.width < allEnemies[i].x + allEnemies[i].width) {
+                player.x = allEnemies[i].x - allEnemies[i].width;
+            }
+            
+            
+            if (h % 5 === 0) {
                 player.health--;
                 h++;
             }
+
             console.log(`Health after hit: ${player.health}`);
         }
     }
 }
 
+
+function createEnemyShips(name, x, y) {
+    name = new Enemy('images/enemy-bug.png', x, y, 100, 70);
+    allEnemies.push(name);
+}
+
 const player = new Player(200, 380);
 
-const uiText = new Text(640, 40);
+const uiText = new Text("Score: ", 640, 40);
+
+const time = new Time("Time: ", 640, 80);
 
 let bullet = new Bullet(player.x, player.y);
 
@@ -353,6 +470,13 @@ console.log(`enemy3 speed: ${enemy3.speed}`);
 console.log(`enemy4 speed: ${enemy4.speed}`); 
 console.log(`enemy5 speed: ${enemy5.speed}`); 
 
+if (time.timer[1] < 5) {
+    let stepX = 0;
+    for(let i = 6; i < 11; i++) {
+        createEnemyShips(`enemy${i}`, stepX,  0);
+        stepX += 90;
+    }
+}
 
 
 // This listens for key presses and sends the keys to your
@@ -367,10 +491,23 @@ document.addEventListener('keydown', function(e) {
         65: 'a',
         83: 's',
         68: 'd',
-        32: 'spacebar'
+        32: 'spacebar',
+        13: 'enter'
     };
 
+    
     player.handleInput(allowedKeys[e.keyCode]);
+});
+
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        32: 'spacebar',
+        13: 'enter'
+    };
+
+    // game.handleInput(allowedKeys[e.keyCode]);
+    title.handleInput(allowedKeys[e.keyCode]);
+    bullet.handleInput(allowedKeys[e.keyCode]);
 
 });
 
@@ -389,11 +526,3 @@ document.addEventListener('keydown', function(e) {
 //     }
 // }, 400);
 
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        32: 'spacebar'
-    };
-
-    bullet.handleInput(allowedKeys[e.keyCode]);
-
-});
