@@ -22,7 +22,11 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        run;
+
+    const modal = document.querySelector('.modal');
+    const retry = document.querySelector('.modal-button');
 
     canvas.width = 800;
     canvas.height = 600;
@@ -45,7 +49,7 @@ var Engine = (function(global) {
          * our update function since it may be used for smooth animation.
          */
         update(dt);
-        render();
+        render(dt);
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -55,7 +59,9 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+        if (title.run === true) {
+            win.requestAnimationFrame(main);
+        }
     }
 
     /* This function does some initial setup that should only occur once,
@@ -78,6 +84,16 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
+        // let j = false;
+        // if (time.timer[1] === 10 && j === false) {
+        //     let stepX = 0;
+        //     j = true;
+        //     for(let i = 6; i < 11; i++) {
+        //         createEnemyShips(`enemy${i}`, stepX,  0);
+        //         stepX += 80;
+        //     }
+        // }
+
         if (explosionArr > 0) {
             setTimeout( () => {delExplosion(`explosion${e}`);}, 2000);
         }
@@ -88,12 +104,19 @@ var Engine = (function(global) {
             r++;
         }
         
+
+        if (player.health <= 0) {
+            gameOver();
+        }
+
+        time.update(dt);
         updateEntities(dt);
         player.bounds();
         bullet.bounds();
         checkCollision();
-        bg.scroll();
-        bg1.scroll();
+        bg.scroll(dt);
+        bg1.scroll(dt);
+        player.update(dt);
 
         if (bulletArr.length > 0) {
             bulletChecks();
@@ -130,7 +153,7 @@ var Engine = (function(global) {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
-    function render() {
+    function render(dt) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.*/
         //     numRows = 6,
@@ -155,14 +178,14 @@ var Engine = (function(global) {
                 
         //         ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
  
-        renderEntities();
+        renderEntities(dt);
     }
 
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
-    function renderEntities() {
+    function renderEntities(dt) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
@@ -171,6 +194,7 @@ var Engine = (function(global) {
         uiBG.render();
         ui.render();
         uiText.render();
+        time.render();
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -183,15 +207,29 @@ var Engine = (function(global) {
             r++;
         }
         
-        player.render();
+        player.render(dt);
     }
 
+
+    function gameOver() {
+        // win.cancelAnimationFrame(run);
+        
+        modal.classList.toggle('modal');
+        title.run = false;
+    }
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
         // noop
+        function gameTitle() {
+            // title.run = false;
+            // win.cancelAnimationFrame(gameTitle);
+        }
+        
+        gameTitle();
+        
     }
 
     /* Go ahead and load all of the images we know we're going to need to
