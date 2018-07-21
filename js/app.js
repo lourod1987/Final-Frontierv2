@@ -14,29 +14,39 @@ class Game {
 
     render() {
         ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
-        if (this.flash % 5 === 0) {
-            ctx.globalAlpha = 0.3;
+        ctx.globalAlpha = 1.0;
+        if (this.flash < 40) {
+            // debugger;
+            ctx.globalAlpha = 0;
+            this.flash++;
         } else {
-            ctx.globalAlpha = 1.0;
-        }
-        this.flash++;
-    }
+            ctx.globalAlpha = 1;
 
+            if (this.flash  > 80) {
+                this.flash = 0; 
+            }
+            this.flash++;
+             
+        }
+    }
+        
     handleInput(key) {
         switch(key) {
             case 'enter':
                 // this.run = false;
-                this.gameState++;
+                this.gameState = 1;
+                break;
+            case 'esc':
+                this.gameState = 0;
                 break;
         }
     }
-
 }
 
 
 class BG {
     constructor(x, y) {
-        this.bg = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
+        this.bg = 'images/tileable-nebula.png';
         this.x = x;
         this.y = y;
     }
@@ -99,7 +109,7 @@ class TitleText extends BG {
     }
 
     render() {
-        ctx.font="bold 18px Verdana, san-serif";
+        ctx.font="bold 24px Verdana, san-serif";
         ctx.fillStyle = "white";
         ctx.fillText(this.text, this.x, this.y);
     }
@@ -148,13 +158,13 @@ class Enemy {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = Math.floor(Math.random() * 3) + 1;
+        this.speed = Math.floor(Math.random() * 2) + 1;
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
         this.i = 0;
         this.moveX = 0;
         // this.minBoundsY = 0;
-        this.maxBoundsY = 520;
+        // this.maxBoundsY = 520;
     }
 
     update(dt) {
@@ -163,23 +173,94 @@ class Enemy {
         if (this.y > 600) {
             this.y = -20;
         }
-        let m = 0;
-        if (this.i >= 10) {
-            if (this.moveX % 2 === 0){
-                for(let j = 0; j < 15; j++) {
-                    this.x++;
-                }
-                this.moveX++;
-            } else {
-                for(let j = 0; j < 15; j++) {
-                    this.x--;
-                }
-                this.moveX++;
+        
+        if (this.i < 80) {
+            this.x++;
+            this.i++;
+        } else {
+            this.x--;
+            if (this.i  > 160) {
+                this.i = 0; 
             }
-
-            this.i = 0;
+            this.i++;
         }
-        this.i++;
+    }
+
+    spawn() {
+        if (time.timer[1] === 10) {
+            // let z = true;
+
+            // if (z === true && time.timer[1] === 10) {
+            //     z = false;
+                let stepX = 0;
+                for(let i = 6; i < 11; i++) {
+                    createEnemyShips(`enemies${i}`, stepX,  0);
+                    stepX += 150;
+                }
+            // } 
+        }
+
+        if (time.timer[1] === 20) {
+            let stepX = 0;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  0);
+                stepX += 150;
+            }
+        }
+
+        if (time.timer[1] === 30) {
+            let stepX = 0;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  0);
+                stepX += 150;
+            }
+        }
+
+        if (time.timer[1] === 40) {
+            let stepX = 0;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  0);
+                stepX += 150;
+            }
+        }
+
+        if (time.timer[1] === 50) {
+            let stepX = 0;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  0);
+                stepX += 150;
+            }
+        }
+
+        if (time.timer[0] === 1 && time.timer[1] === 0) {
+            let stepX = 0;
+            let stepY = -80;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                stepX += 200;
+                stepY += 20;
+            }
+        }
+
+        if (time.timer[0] === 1 && time.timer[1] === 10) {
+            let stepX = 0;
+            let stepY = -80;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                stepX += 200;
+                stepY += 20;
+            }
+        }
+
+        if (time.timer[0] === 1 && time.timer[1] === 20) {
+            let stepX = 0;
+            let stepY = -80;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                stepX += 200;
+                stepY += 20;
+            }
+        }
     }
 
     render() {
@@ -193,9 +274,9 @@ class Enemy {
             this.x = 0;
         }
         
-        if (this.y >= this.maxBoundsY) {
-            this.y = 520;
-        }
+        // if (this.y >= this.maxBoundsY) {
+        //     this.y = 520;
+        // }
     }
 }
 
@@ -263,18 +344,25 @@ class Player {
     }
 
     update(dt) {
-        if (this.health === 2) {
-            // for (let i = 0; i < 10000; i++)
-            //     if (i  % 2 === 0) {
-                    ctx.globalAlpha = 0.5;
-            //     } else {
-            //         player.filter = 'opacity(100%)';
-            // }
-        }
     }
     
     render(dt) {
+        
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        ctx.globalAlpha = 1.0;
+        if (this.health === 2) {
+            for (let i = 0; i < 100; i++)
+                if (i  < 30) {
+                    ctx.globalAlpha = 0;
+                } else {
+                    // player.filter = 'opacity(100%)';
+                    ctx.globalAlpha = 1;
+
+                    // if (i  > 60) {
+                    //     i = 0; 
+                    // }
+            }
+        }
     }
 
      handleInput(key) {
@@ -350,7 +438,7 @@ class Player {
 
 class Explosion {
     constructor(x, y) {
-        this.explosion = 'images/particleBlue.png';
+        this.explosion = 'images/explosion.png';
         this.x = x;
         this.y = y;
         this.explosionSound = document.getElementById("explosionSound");
@@ -364,14 +452,17 @@ class Explosion {
 const game = new Game();
 
 const title = new Game();
-
-const textTitle = new TitleText("Press Enter", 350, 300);
-
+const textTitle = new TitleText("Press 'Enter' to Begin", 280, 300);
 
 
-const bg = new BG(0, 1);
 
-const bg1 = new BG(0, -599);
+
+
+
+
+const bg = new BG(0, 0);
+
+const bg1 = new BG(0, -600);
 
 const uiBG = new UI(630, 10, 160, 110, 'rgba(255, 255, 255, 0.75)');
 const ui = new UI(635, 15, 150, 100, 'rgba(0, 168, 120, 0.75)');
@@ -478,7 +569,11 @@ const player = new Player(200, 380);
 
 const uiText = new Text("Score: ", 640, 40);
 
-const time = new Time("Time: ", 640, 80);
+const won = new Game();
+
+const winText = new TitleText(`With a score of ${uiText.score}.`, 200, 300);
+
+const time = new Time("Time: ", 640, 60);
 
 let bullet = new Bullet(player.x, player.y);
 
@@ -486,7 +581,8 @@ const randSpeed1 = Math.floor(Math.random() * 6) + 1,
       randSpeed2 = Math.floor(Math.random() * 6) + 1,
       randSpeed3 = Math.floor(Math.random() * 6) + 1;
 
-const enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 100, 70),
+const enemy0 = new Enemy('', 0, 0, 0, 0),
+      enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 100, 70),
       enemy2 = new Enemy('images/enemy-bug.png', 300, 140, 100, 70),
       enemy3 = new Enemy('images/enemy-bug.png', 100, 140, 100, 70),
       enemy4 = new Enemy('images/enemy-bug.png', 215, 220, 100, 70),
@@ -498,13 +594,18 @@ console.log(`enemy3 speed: ${enemy3.speed}`);
 console.log(`enemy4 speed: ${enemy4.speed}`); 
 console.log(`enemy5 speed: ${enemy5.speed}`); 
 
-if (time.timer[1] < 5) {
-    let stepX = 0;
-    for(let i = 6; i < 11; i++) {
-        createEnemyShips(`enemy${i}`, stepX,  0);
-        stepX += 150;
-    }
-}
+// if (time.timer[1] > 15) {
+//     let z = 0;
+//     if (z < 1) {
+//         let stepX = 0;
+//         for(let i = 6; i < 11; i++) {
+//             createEnemyShips(`enemy${i}`, stepX,  0);
+//             stepX += 150;
+//         }
+//         z++;
+//     }
+    
+// }
 
 
 // This listens for key presses and sends the keys to your
@@ -533,19 +634,16 @@ document.addEventListener('keyup', function(e) {
         13: 'enter'
     };
 
-    // game.handleInput(allowedKeys[e.keyCode]);
-    title.handleInput(allowedKeys[e.keyCode]);
     bullet.handleInput(allowedKeys[e.keyCode]);
-
 });
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
-        32: 'spacebar',
+        27: 'esc',
         13: 'enter'
     };
 
-    // game.handleInput(allowedKeys[e.keyCode]);
+    // title.handleInput(allowedKeys[e.keyCode]);
     game.handleInput(allowedKeys[e.keyCode]);
 });
 
