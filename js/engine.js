@@ -75,6 +75,11 @@ var Engine = (function(global) {
         }
     }
 
+    function reset() {
+        time.timer = [0, 0];
+        score.score = 0;
+    }
+
     let i = 0;
     function startScreen() {
         renderTitle();
@@ -252,7 +257,7 @@ var Engine = (function(global) {
         bg1.render();
         uiBG.render();
         ui.render();
-        uiText.render();
+        score.render();
         time.render();
         level1RenderEntities(dt);
     }
