@@ -14,23 +14,25 @@ body {
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    width: 0%; /* Full width */
+    height: 0%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    /* transform: translate(80%, 200%); */
   }
   
   /* Modal Content Box */
   .modal-content {
     display: flex;
-    background-color: #00605A;/*#00A99D;*/
+    background-color: rgb(5, 2, 2);/*#00A99D;*/
     padding: 6%;
     border: 1px solid #888;
     width: 25%;
     height: 25%;
     list-style-type: none;
     flex-direction: column;
+    transform: translate(80%, 130%);
   }
   
   .modal-content img {
@@ -40,11 +42,10 @@ body {
   
   .modal-content h2 {
     font-family: 'Alfa Slab One', cursive;
-    color:  #FFC766;
+    color:  #008BF8;
     font-weight: 100;
-    text-shadow: 0px 0px 25px rgba(255, 255, 130, 0.75);
+    text-shadow: 0px 0px 25px rgb(255, 255, 255);
     margin: 20px auto 10px auto;
-    border-bottom: 5px solid #FFC766;
   }
   
   .modal-content p {
