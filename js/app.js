@@ -2,6 +2,10 @@ class Game {
     constructor() {
         this.titleBG = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
         this.run = true;
+        this.gameState = 0;
+        this.x = 0;
+        this.y = 0;
+        this.flash = 0;
     }
 
     update() {
@@ -10,12 +14,19 @@ class Game {
 
     render() {
         ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
+        if (this.flash % 5 === 0) {
+            ctx.globalAlpha = 0.3;
+        } else {
+            ctx.globalAlpha = 1.0;
+        }
+        this.flash++;
     }
 
     handleInput(key) {
         switch(key) {
             case 'enter':
-                this.run = false;
+                // this.run = false;
+                this.gameState++;
                 break;
         }
     }
@@ -79,6 +90,20 @@ class Text extends BG {
     }
 }
 
+//change the class title names and inheritence around for text classes
+class TitleText extends BG {
+    constructor(text, x, y) {
+        super(x, y);
+        this.score = 0;
+        this.text = text;
+    }
+
+    render() {
+        ctx.font="bold 18px Verdana, san-serif";
+        ctx.fillStyle = "white";
+        ctx.fillText(this.text, this.x, this.y);
+    }
+}
 
 class Time extends Text {
     constructor( text, x, y) {
@@ -336,10 +361,13 @@ class Explosion {
     }
 }
 
+const game = new Game();
 
 const title = new Game();
 
-// const game = new Game();
+const textTitle = new TitleText("Press Enter", 350, 300);
+
+
 
 const bg = new BG(0, 1);
 
@@ -474,7 +502,7 @@ if (time.timer[1] < 5) {
     let stepX = 0;
     for(let i = 6; i < 11; i++) {
         createEnemyShips(`enemy${i}`, stepX,  0);
-        stepX += 90;
+        stepX += 150;
     }
 }
 
@@ -509,6 +537,16 @@ document.addEventListener('keyup', function(e) {
     title.handleInput(allowedKeys[e.keyCode]);
     bullet.handleInput(allowedKeys[e.keyCode]);
 
+});
+
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        32: 'spacebar',
+        13: 'enter'
+    };
+
+    // game.handleInput(allowedKeys[e.keyCode]);
+    game.handleInput(allowedKeys[e.keyCode]);
 });
 
 // setTimeout( () => {
