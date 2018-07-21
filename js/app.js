@@ -146,23 +146,6 @@ class Text extends BG {
     }
 }
 
-
-class WinText extends Text {
-    constructor(font, text, text1, x, y, x1, y1) {
-        super(font, text, x, y);
-        this.text1 = text1;
-        this.x1 = x1;
-        this.y1 = y1;
-    }
-
-    render() {
-        ctx.font= this.font;
-        ctx.fillStyle = "white";
-        ctx.fillText(this.text, this.x, this.y);
-        ctx.fillText(this.text1 + uiText.score,  this.x1, this.y1);
-    }
-}
-
 class ScoreText extends Text {
     constructor(font, text, x, y) {
         super(font, text, x, y);
@@ -178,6 +161,22 @@ class ScoreText extends Text {
     }
 }
 
+
+class WinText extends Text {
+    constructor(font, text, text1, x, y, x1, y1) {
+        super(font, text, x, y);
+        this.text1 = text1;
+        this.x1 = x1;
+        this.y1 = y1;
+    }
+
+    render() {
+        ctx.font= this.font;
+        ctx.fillStyle = "white";
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.fillText(this.text1 + score.score,  this.x1, this.y1);
+    }
+}
 
 
 class TimeText extends Text {
@@ -227,6 +226,7 @@ class Enemy {
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
         this.i = 0;
+        this.s = 0;
         this.moveX = 0;
         // this.minBoundsY = 0;
         // this.maxBoundsY = 520;
@@ -259,8 +259,9 @@ class Enemy {
             //     z = false;
                 let stepX = 0;
                 for(let i = 6; i < 11; i++) {
-                    createEnemyShips(`enemies${i}`, stepX,  0);
+                    createEnemyShips(`enemies${this.s}`, stepX,  0);
                     stepX += 150;
+                    this.s++;
                 }
             // } 
         }
@@ -268,32 +269,36 @@ class Enemy {
         if (time.timer[1] === 20) {
             let stepX = 0;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  0);
+                createEnemyShips(`enemies${this.s}`, stepX,  0);
                 stepX += 150;
+                this.s++;
             }
         }
 
         if (time.timer[1] === 30) {
             let stepX = 0;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  0);
+                createEnemyShips(`enemies${this.s}`, stepX,  0);
                 stepX += 150;
+                this.s++;
             }
         }
 
         if (time.timer[1] === 40) {
             let stepX = 0;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  0);
+                createEnemyShips(`enemies${this.s}`, stepX,  0);
                 stepX += 150;
+                this.s++;
             }
         }
 
         if (time.timer[1] === 50) {
             let stepX = 0;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  0);
+                createEnemyShips(`enemies${this.s}`, stepX,  0);
                 stepX += 150;
+                this.s++;
             }
         }
 
@@ -301,9 +306,10 @@ class Enemy {
             let stepX = 0;
             let stepY = -80;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
                 stepX += 200;
                 stepY += 20;
+                this.s++;
             }
         }
 
@@ -311,9 +317,10 @@ class Enemy {
             let stepX = 0;
             let stepY = -80;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
                 stepX += 200;
                 stepY += 20;
+                this.s++;
             }
         }
 
@@ -321,9 +328,10 @@ class Enemy {
             let stepX = 0;
             let stepY = -80;
             for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${i}`, stepX,  stepY);
+                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
                 stepX += 200;
                 stepY += 20;
+                this.s++;
             }
         }
     }
@@ -570,7 +578,7 @@ function bulletChecks() {
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
-                   uiText.score += 10;
+                   score.score += 10;
                    console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
                    createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
                    e++;
@@ -632,7 +640,7 @@ function createEnemyShips(name, x, y) {
 
 const player = new Player(200, 380);
 
-const uiText = new ScoreText("bold 18px Orbitron, sans-serif", "Score: ", 640, 40);
+const score = new ScoreText("bold 18px Orbitron, sans-serif", "Score: ", 640, 40);
 
 const won = new Game();
 
