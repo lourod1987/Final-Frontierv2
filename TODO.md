@@ -10,7 +10,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Create Player Health image
     * Create Enemy Bullet image
     * Create Explosion image
-    * Create or Find vertically tileable BG space image
+    * Create or find a unique vertically tileable image for three levels *{optional}*
     * Create Title screen image
     * Find/Set game fonts
     * Create custom UI hud bg for displaying score and health on top of *{optional}*
