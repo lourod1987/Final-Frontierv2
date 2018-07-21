@@ -41,7 +41,7 @@ body {
   }
   
   .modal-content h2 {
-    font-family: 'Alfa Slab One', cursive;
+   font-family: 'Orbitron', sans-serif;
     color:  rgb(103, 237, 255);
     font-weight: 100;
     text-shadow: 0px 0px 10px rgb(255, 255, 255);
@@ -70,7 +70,7 @@ body {
     padding: 1.3rem;
     margin-top: 50px;
     border-radius: 20px;
-    font-family: 'Bungee Inline', cursive;
+    font-family: 'Orbitron', sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
     background-color: #008BF8;
