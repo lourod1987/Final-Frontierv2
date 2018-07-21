@@ -22,8 +22,7 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime,
-        run;
+        lastTime;
 
     const modal = document.querySelector('.modal');
     const retry = document.querySelector('.modal-button');
@@ -59,7 +58,7 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        if (title.run === true) {
+        if (game.run === true) {
             win.requestAnimationFrame(main);
         }
     }
@@ -71,7 +70,9 @@ var Engine = (function(global) {
     function init() {
         reset();
         lastTime = Date.now();
-        main();
+        // if (game.gameState === 1) {
+        //     main();
+        // }
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -213,10 +214,11 @@ var Engine = (function(global) {
 
     function gameOver() {
         // win.cancelAnimationFrame(run);
-        
+        // document.appendChild('');
         modal.classList.toggle('modal');
-        title.run = false;
+        game.run = false;
     }
+
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
@@ -224,12 +226,28 @@ var Engine = (function(global) {
     function reset() {
         // noop
         function gameTitle() {
+            // renderTitle();
+            game.render();
+            textTitle.render();
+
+            if (game.gameState === 1) {
+                debugger;
+                main();
+            }
+            
+            if (game.gameState === 0) {
+                win.requestAnimationFrame(gameTitle);
+            }
+            
             // title.run = false;
             // win.cancelAnimationFrame(gameTitle);
         }
+
+        // function renderTitle() {
+            
+        // }
         
         gameTitle();
-        
     }
 
     /* Go ahead and load all of the images we know we're going to need to
