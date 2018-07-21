@@ -94,7 +94,7 @@ class Text extends BG {
     }
 
     render() {
-        ctx.font="bold 18px Verdana, san-serif";
+        ctx.font="bold 18px Orbitron, sans-serif";
         ctx.fillStyle = "white";
         ctx.fillText(this.text + this.score, this.x, this.y);
     }
@@ -109,7 +109,7 @@ class TitleText extends BG {
     }
 
     render() {
-        ctx.font="bold 24px Verdana, san-serif";
+        ctx.font="bold 24px Orbitron, sans-serif";
         ctx.fillStyle = "white";
         ctx.fillText(this.text, this.x, this.y);
     }
@@ -137,7 +137,7 @@ class Time extends Text {
     }
 
     render() {
-        ctx.font="bold 18px Verdana, san-serif";
+        ctx.font="bold 18px Orbitron, sans-serif";
         ctx.fillStyle = "white";
         ctx.fillText(this.text + leadingZero(this.timer[0]) + ":" + leadingZero(this.timer[1]), this.x, this.y);
     }
