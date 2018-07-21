@@ -42,9 +42,9 @@ body {
   
   .modal-content h2 {
     font-family: 'Alfa Slab One', cursive;
-    color:  #008BF8;
+    color:  rgb(103, 237, 255);
     font-weight: 100;
-    text-shadow: 0px 0px 25px rgb(255, 255, 255);
+    text-shadow: 0px 0px 10px rgb(255, 255, 255);
     margin: 20px auto 10px auto;
   }
   
