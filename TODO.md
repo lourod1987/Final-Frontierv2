@@ -12,7 +12,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Create Explosion image
     * Create or find a unique vertically tileable image for three levels *{optional}*
     * Create Title screen image
-    * Find/Set game fonts
+    * Find/Set game fonts **[done!]**
     * Create custom UI hud bg for displaying score and health on top of *{optional}*
     * Create boss enemy to fight (conside behavior in design) *{optional}*
 
@@ -21,7 +21,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Title screen music *{optional}*
     * Enemy shot sound effects
     * Player + enemy collision sound effect
-    * Player hit by enemy bullet sound effect
+    * Player hit by enemy bullet sound effect *{optional}*)
     * Player unit destroyed
     * Game over sound effect
     * Enemy hit by player bullet (for when enemy can take more then a single hit)
