@@ -43,6 +43,50 @@ class Game {
     }
 }
 
+class TitleScreen {
+    constructor() {
+        this.titleBG = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
+        this.run = true;
+        this.gameState = 0;
+        this.x = 0;
+        this.y = 0;
+        this.flash = 0;
+    }
+
+    update() {
+
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
+        ctx.globalAlpha = 1.0;
+        if (this.flash < 40) {
+            // debugger;
+            ctx.globalAlpha = 0;
+            this.flash++;
+        } else {
+            ctx.globalAlpha = 1;
+
+            if (this.flash  > 80) {
+                this.flash = 0; 
+            }
+            this.flash++;
+             
+        }
+    }
+        
+    handleInput(key) {
+        switch(key) {
+            case 'enter':
+                // this.run = false;
+                this.gameState = 1;
+                break;
+            case 'esc':
+                this.gameState = 0;
+                break;
+        }
+    }
+}
 
 class BG {
     constructor(x, y) {
@@ -86,38 +130,59 @@ class UI extends BG {
 }
 
 
-class Text extends BG {
-    constructor(text, x, y) {
-        super(x, y);
-        this.score = 0;
-        this.text = text;
-    }
-
-    render() {
-        ctx.font="bold 18px Orbitron, sans-serif";
-        ctx.fillStyle = "white";
-        ctx.fillText(this.text + this.score, this.x, this.y);
-    }
-}
-
 //change the class title names and inheritence around for text classes
-class TitleText extends BG {
-    constructor(text, x, y) {
+class Text extends BG {
+    constructor(font, text, x, y) {
         super(x, y);
         this.score = 0;
         this.text = text;
+        this.font = font;
     }
 
     render() {
-        ctx.font="bold 24px Orbitron, sans-serif";
+        ctx.font= this.font;
         ctx.fillStyle = "white";
         ctx.fillText(this.text, this.x, this.y);
     }
 }
 
-class Time extends Text {
-    constructor( text, x, y) {
-        super( text, x, y);
+
+class WinText extends Text {
+    constructor(font, text, text1, x, y, x1, y1) {
+        super(font, text, x, y);
+        this.text1 = text1;
+        this.x1 = x1;
+        this.y1 = y1;
+    }
+
+    render() {
+        ctx.font= this.font;
+        ctx.fillStyle = "white";
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.fillText(this.text1 + uiText.score,  this.x1, this.y1);
+    }
+}
+
+class ScoreText extends Text {
+    constructor(font, text, x, y) {
+        super(font, text, x, y);
+        this.score = 0;
+        
+    }
+
+    render() {
+        ctx.font= this.font;
+        ctx.fillStyle = "white";
+        
+        ctx.fillText(this.text + this.score, this.x, this.y);
+    }
+}
+
+
+
+class TimeText extends Text {
+    constructor(font, text, x, y) {
+        super(font, text, x, y);
         this.timer = [0, 0];
         this.timeRunning = false;
         this.i = 0;
@@ -137,7 +202,7 @@ class Time extends Text {
     }
 
     render() {
-        ctx.font="bold 18px Orbitron, sans-serif";
+        ctx.font= this.font;
         ctx.fillStyle = "white";
         ctx.fillText(this.text + leadingZero(this.timer[0]) + ":" + leadingZero(this.timer[1]), this.x, this.y);
     }
@@ -451,8 +516,8 @@ class Explosion {
 
 const game = new Game();
 
-const title = new Game();
-const textTitle = new TitleText("Press 'Enter' to Begin", 280, 300);
+const title = new TitleScreen();
+const textTitle = new Text("bold 24px Orbitron, sans-serif", "Press 'Enter' to Begin", 280, 300);
 
 
 
@@ -567,13 +632,13 @@ function createEnemyShips(name, x, y) {
 
 const player = new Player(200, 380);
 
-const uiText = new Text("Score: ", 640, 40);
+const uiText = new ScoreText("bold 18px Orbitron, sans-serif", "Score: ", 640, 40);
 
 const won = new Game();
 
-const winText = new TitleText(`With a score of ${uiText.score}.`, 200, 300);
+const winText = new WinText("bold 24px Orbitron, sans-serif", "You've Conquered the Final Frontier!", "With a score of ", 180, 300, 260, 350);
 
-const time = new Time("Time: ", 640, 60);
+const time = new TimeText("bold 18px Orbitron, sans-serif", "Time: ", 640, 60);
 
 let bullet = new Bullet(player.x, player.y);
 
