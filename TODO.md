@@ -31,11 +31,11 @@ List of things to get done / ideas I want to implement (tentative):
 * Programming
     * Get explosions fully working
     * Get particle effects working (mainly for ship booster, possibly for explosion) *{optional}*
-    * Get Title screen running, game (multiple lvls), loss state, win state, credits (each pushes into new state)
+    * Get Title screen running, game (multiple lvls), loss state, win state, credits (each pushes into new state) **[done!]** (credits and multiple levels will be easy to add)
     * Get Title screen menu (start game, with options for sound / muting, controls display)
     * Get powerups running (alter rate of fire or type of bullet, special attacks, shields) *{optional}*
     * Get score text displaying on game screen **[done!]**
-    * Get health working correctly
+    * Get health working correctly **[done!]**
     * Get health displaying on screen
     * Indicate ship took a hit (possibly flashing ship img or transparent to opaque alternating)
     * Get timer set up **[done!]**
@@ -43,19 +43,24 @@ List of things to get done / ideas I want to implement (tentative):
     * Create enemy spawning pattern [partial implementation, once spawn time issues are resolved I can finish fleshing this out]
     * Randomize enemy spawning pattern *{optional}*
     * Get some enemy units to fire
-    * Get back and forth (or random) enemy movemnt on x axis [mostly working, requires some fine tuning]
+    * Get back and forth (or random) enemy movemnt on x axis **[done!]** (can easily add in random variation)
     * Script in Boss event at end of final level *{optional}*
     * Script in Boss behavior with unique attack patterns and health bar (or visible dmg using img swap) *{optional}*
     * Create game win state
     * Create game loss state **[done!]**
     * Allow game restart
     * Allow game pause *{optional}*
-    * Set up velocity transfer on collision
+    * Set up velocity transfer on collision *{optional}*
     * Improve player movement (needs to be smoothed) *{optional}*
     * Eliminate default BG render **[done!]**
     * Get controls working smoothly / in parallel (in other words the ability to press both w and d key to move vertically and spacebar all without any one action being stopped by multiple keypresses) *{optional}*
     * Save and Load States (as long as page is not refreshed) *{optional}*
+
+* Server Set Up *{optional}*
     * Save and Load States preserved via server, login required *{optional}*
     * User creation with Login in info server saved *{optional}*
     * High Score server preserved data *{optional}*
     * Server set up for the above mentioned (user creation/login, save game states, high score) *{optional}*
+
+    * Multiplayer *{optional}*
+        * Use socket.io to create a 2 player co-op *{optional}*
