@@ -40,13 +40,13 @@ List of things to get done / ideas I want to implement (tentative):
     * Indicate ship took a hit (possibly flashing ship img or transparent to opaque alternating)
     * Get timer set up **[done!]**
     * Get timer displayed in game **[done!]**
-    * Create enemy spawning pattern [partial implementation, once spawn time issues are resolved I can finish fleshing this out]
+    * Create enemy spawning pattern **[done!]** (just missing helper function for more efficient enemy creation)
     * Randomize enemy spawning pattern *{optional}*
     * Get some enemy units to fire
     * Get back and forth (or random) enemy movemnt on x axis **[done!]** (can easily add in random variation)
     * Script in Boss event at end of final level *{optional}*
     * Script in Boss behavior with unique attack patterns and health bar (or visible dmg using img swap) *{optional}*
-    * Create game win state
+    * Create game win state **[done!]**
     * Create game loss state **[done!]**
     * Allow game restart
     * Allow game pause *{optional}*
