@@ -15,12 +15,12 @@ body {
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 0%; /* Full width */
-    height: 0%; /* Full height */
+    width: 0; /* Full width */
+    height: 0; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    /* transform: translate(80%, 200%); */
+    /* transform: translate(0%, -2000px); */
   }
   
   /* Modal Content Box */
@@ -29,11 +29,11 @@ body {
     background-color: rgb(5, 2, 2);/*#00A99D;*/
     padding: 6%;
     border: 1px solid #888;
-    width: 25%;
-    height: 25%;
+    width: 200px;
+    height: 175px;
     list-style-type: none;
     flex-direction: column;
-    transform: translate(80%, 130%);
+    transform: translate(175%, 130%);
   }
   
   .modal-content img {
@@ -47,6 +47,7 @@ body {
     font-weight: 100;
     text-shadow: 0px 0px 10px rgb(255, 255, 255);
     margin: 20px auto 10px auto;
+    transform: translate(0%, -50%);
   }
   
   .modal-content p {
@@ -80,6 +81,7 @@ body {
     text-align: center;
     cursor: pointer;
     box-shadow: 0px 0px 25px rgba(255, 255, 255, .6);
+    transform: translate(0%, -50%);
   }
   
   #mythic-win {
@@ -92,6 +94,7 @@ body {
     align-self: flex-end;
     font-size: 28px;
     font-weight: 800;
+    transform: translate(0%, -50%);
   }
   
   #close:hover,
