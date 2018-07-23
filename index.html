@@ -11,11 +11,11 @@
     <div id="myModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span id="close">&times;</span>
             <img src="images/.png" alt="" id="">
             <img src="images/.png" alt="" id="">
             <h2>Game Over <br> You're Space Dust</h2>
-            <button class="play-again">Play Again!</button>
+            <button id="play-again">Play Again!</button>
         </div>
     </div>
     <audio id="moveSound">
@@ -24,6 +24,10 @@
     </audio>
     <audio id="bulletSound">
         <source src="audio/Laser_Shoot6.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="playerHit">
+        <source src="audio/Hit_Hurt6.wav" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
     <audio id="explosionSound">
