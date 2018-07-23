@@ -86,15 +86,15 @@ body {
   }
   
   /* The Close Button */
-  span.close {
+  span#close {
     color: #aaa;
     align-self: flex-end;
     font-size: 28px;
     font-weight: 800;
   }
   
-  .close:hover,
-  .close:focus {
+  #close:hover,
+  #close:focus {
     color: white;
     text-decoration: none;
     cursor: pointer;
