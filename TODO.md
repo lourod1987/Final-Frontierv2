@@ -3,24 +3,24 @@
 List of things to get done / ideas I want to implement (tentative):
 
 * Art
-    * Create ship image
+    * Create Player ship image **[done!]**
     * Create 3 different enemy ship images
     * Create Asteriod image / varying sizes
-    * Create Player Bullet(s) image
-    * Create Player Health image
+    * Create Player Bullet(s) image **[done!]**
+    * Create Player Health image **[done!]**
     * Create Enemy Bullet image
     * Create Explosion image
     * Create or find a unique vertically tileable image for three levels *{optional}*
-    * Create Title screen image
+    * Create Title screen image **[done!]**
     * Find/Set game fonts **[done!]**
     * Create custom UI hud bg for displaying score and health on top of *{optional}*
     * Create boss enemy to fight (conside behavior in design) *{optional}*
 
 * Audio
-    * Find or create Music for game levels (unique for each *{optional}*)
-    * Title screen music *{optional}*
+    * Find or create Music for game levels (unique for each *{optional}*) **[done!]**
+    * Title screen music *{optional}* **[done!]**
     * Enemy shot sound effects
-    * Player + enemy collision sound effect
+    * Player + enemy collision sound effect **[done!]**
     * Player hit by enemy bullet sound effect *{optional}*)
     * Player unit destroyed
     * Game over sound effect
@@ -36,7 +36,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Get powerups running (alter rate of fire or type of bullet, special attacks, shields) *{optional}*
     * Get score text displaying on game screen **[done!]**
     * Get health working correctly **[done!]**
-    * Get health displaying on screen
+    * Get health displaying on screen **[done!]**
     * Indicate ship took a hit (possibly flashing ship img or transparent to opaque alternating)
     * Get timer set up **[done!]**
     * Get timer displayed in game **[done!]**
@@ -64,3 +64,10 @@ List of things to get done / ideas I want to implement (tentative):
 
     * Multiplayer *{optional}*
         * Use socket.io to create a 2 player co-op *{optional}*
+
+* Bugs / Crashes **{Critical to Fix}**
+    * When there are many enemies on screen occassionally game will crash citing allEnemies[i] undefined.
+    * Reseting game more then once causes function calls to speed up
+    * Explosions don't render or disappear as they should
+    * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game)
+    * Starting new game does not clear all previous enemies
