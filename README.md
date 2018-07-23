@@ -26,7 +26,7 @@ Welcome to the Final Frontier. Can you survive? How many points will you score?
     * Down arrow key moves player down.
     * Right arrow key moves player right.
 
-Note: current set up only allows a single button to be registered at anyone time.
+Note: current set up only allows a single button to be registered at any one time.
 
 # Bug / Crash workarounds
     * Don't fire laser bullets too quickly and it should avoid the game crashing.
