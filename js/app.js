@@ -1,33 +1,7 @@
 class Game {
     constructor() {
-        this.titleBG = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
         this.run = true;
         this.gameState = 0;
-        this.x = 0;
-        this.y = 0;
-        this.flash = 0;
-    }
-
-    update() {
-
-    }
-
-    render() {
-        ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
-        ctx.globalAlpha = 1.0;
-        if (this.flash < 40) {
-            // debugger;
-            ctx.globalAlpha = 0;
-            this.flash++;
-        } else {
-            ctx.globalAlpha = 1;
-
-            if (this.flash  > 80) {
-                this.flash = 0; 
-            }
-            this.flash++;
-             
-        }
     }
         
     handleInput(key) {
@@ -59,44 +33,40 @@ class TitleScreen {
 
     render() {
         ctx.drawImage(Resources.get(this.titleBG), this.x, this.y);
-        ctx.globalAlpha = 1.0;
-        if (this.flash < 40) {
-            // debugger;
-            ctx.globalAlpha = 0;
-            this.flash++;
-        } else {
-            ctx.globalAlpha = 1;
-
-            if (this.flash  > 80) {
-                this.flash = 0; 
-            }
-            this.flash++;
-             
-        }
     }
         
     handleInput(key) {
-        switch(key) {
-            case 'enter':
-                // this.run = false;
-                this.gameState = 1;
-                break;
-            case 'esc':
-                this.gameState = 0;
-                break;
-        }
+
     }
 }
 
+
 class BG {
-    constructor(x, y) {
-        this.bg = 'images/tileable-nebula.png';
+    constructor(bg, x, y) {
+        this.bg = bg;
         this.x = x;
         this.y = y;
     }
 
     scroll(dt) {
-        this.y += 0.2;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.bg), this.x, this.y);
+    }
+}
+
+
+class ScrollBG extends BG {
+    constructor(bg, x, y, x1, y1) {
+        super(bg, x, y);
+        this.x1 = x1;
+        this.y1 = y1;
+    }
+
+    scroll(dt) {
+        this.y += 12 * dt;
+        this.y1 += 12 * dt;
 
         if (this.y > 600) {
             this.y = -599;
@@ -105,19 +75,38 @@ class BG {
 
     render() {
         ctx.drawImage(Resources.get(this.bg), this.x, this.y);
+        ctx.drawImage(Resources.get(this.bg), this.x1, this.y1);
     }
 }
 
-function colorCircle(centerX, centerY, radius, drawColor) {
-    canvasContext.fillStyle = drawColor;
-    canvasContext.beginPath();
-    canvasContext.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
-    canvasContext.fill();
+
+class Health extends BG {
+    constructor(bg, x, y, x1, y1, x2, y2) {
+        super(bg, x, y);
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+
+    render() {
+        if (player.health > 0) {
+            ctx.drawImage(Resources.get(this.bg), this.x, this.y);
+        }
+        if (player.health > 1) {
+            ctx.drawImage(Resources.get(this.bg), this.x1, this.y1);
+        }
+        if (player.health > 2) {
+            ctx.drawImage(Resources.get(this.bg), this.x2, this.y2);
+        }
+    }
 }
 
-class UI extends BG {
+
+class SquareUI {
     constructor(x, y, width, height, colorFill) {
-        super(x, y);
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
         this.colorFill = colorFill;
@@ -131,12 +120,13 @@ class UI extends BG {
 
 
 //change the class title names and inheritence around for text classes
-class Text extends BG {
+class Text {
     constructor(font, text, x, y) {
-        super(x, y);
-        this.score = 0;
         this.text = text;
         this.font = font;
+        this.x = x;
+        this.y = y;
+        this.score = 0;
     }
 
     render() {
@@ -145,6 +135,34 @@ class Text extends BG {
         ctx.fillText(this.text, this.x, this.y);
     }
 }
+
+class FlashingText extends Text {
+    constructor(font, text, x, y) {
+        super(font, text, x, y);
+        this.flash = 0;
+    }
+
+    render() {
+        ctx.globalAlpha = 1.0;
+        if (this.flash < 40) {
+            ctx.globalAlpha = 0;
+            this.flash++;
+        } else {
+            ctx.globalAlpha = 1;
+    
+            if (this.flash  > 80) {
+                this.flash = 0; 
+            }
+            this.flash++;   
+        }
+
+        ctx.font= this.font;
+        ctx.fillStyle = "white";
+        
+        ctx.fillText(this.text, this.x, this.y);
+    }
+}
+
 
 class ScoreText extends Text {
     constructor(font, text, x, y) {
@@ -222,7 +240,7 @@ class Enemy {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = Math.floor(Math.random() * 2) + 1;
+        this.speed = Math.floor(Math.random() * 49) + 21;
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
         this.i = 0;
@@ -233,7 +251,7 @@ class Enemy {
     }
 
     update(dt) {
-        this.y += this.speed;
+        this.y += this.speed * dt;
 
         if (this.y > 600) {
             this.y = -20;
@@ -252,18 +270,13 @@ class Enemy {
     }
 
     spawn() {
-        if (time.timer[1] === 10) {
-            // let z = true;
-
-            // if (z === true && time.timer[1] === 10) {
-            //     z = false;
-                let stepX = 0;
-                for(let i = 6; i < 11; i++) {
-                    createEnemyShips(`enemies${this.s}`, stepX,  0);
-                    stepX += 150;
-                    this.s++;
-                }
-            // } 
+        if (time.timer[1] === 5) {
+            let stepX = 0;
+            for(let i = 6; i < 11; i++) {
+                createEnemyShips(`enemies${this.s}`, stepX,  0);
+                stepX += 150;
+                this.s++;
+            }
         }
 
         if (time.timer[1] === 20) {
@@ -355,11 +368,11 @@ class Enemy {
 
 class Bullet {
     constructor(x, y) {
-        this.bullet = 'images/Key.png';
+        this.bullet = 'images/laser.png';
         this.x = x;
         this.y = y;
-        this.width = 45;
-        this.height = 85;
+        this.width = 10;
+        this.height = 30;
         this.minBoundsX = 0;
         this.maxBoundsX = 725;
         this.minBoundsY = 0;
@@ -402,26 +415,25 @@ class Bullet {
 
 class Player {
     constructor(x, y) {
-        this.sprite = 'images/char-horn-girl.png';
+        this.sprite = 'images/playerShip_v3.png';
         this.particle = 'images/particleBlue.png';
         this.x = x;
         this.y = y;
-        this.width = 80;
-        this.height = 80;
-        this.minBoundsX = 0;
+        this.width = 50;
+        this.height = 40;
+        this.minBoundsX = 5;
         this.maxBoundsX = 725;
         this.minBoundsY = 0;
-        this.maxBoundsY = 520;
+        this.maxBoundsY = 545;
         this.health = 3;
-        this.moveSound = document.getElementById("moveSound");
+        // this.moveSound = document.getElementById("moveSound");
+        this.damage = document.getElementById("playerHit");
     }
 
     update(dt) {
     }
     
     render(dt) {
-        
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
         ctx.globalAlpha = 1.0;
         if (this.health === 2) {
             for (let i = 0; i < 100; i++)
@@ -436,6 +448,9 @@ class Player {
                     // }
             }
         }
+
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        
     }
 
      handleInput(key) {
@@ -497,11 +512,11 @@ class Player {
         if (this.x >= this.maxBoundsX) {
             this.x = 725;
         } else if (this.x <= this.minBoundsX) {
-            this.x = 0;
+            this.x = 5;
         } 
         
         if (this.y >= this.maxBoundsY) {
-            this.y = 520;
+            this.y = 545;
         } else if (this.y <= this.minBoundsY) {
             this.y = 0;
         }
@@ -525,20 +540,15 @@ class Explosion {
 const game = new Game();
 
 const title = new TitleScreen();
-const textTitle = new Text("bold 24px Orbitron, sans-serif", "Press 'Enter' to Begin", 280, 300);
+const splashImg = new BG('images/splashScreen_v1.png', 150, 50);
+const textTitle = new FlashingText("bold 24px Orbitron, sans-serif", "Press 'Enter' to Begin", 260, 460);
 
 
 
+const scroll = new ScrollBG('images/tileable-nebula.png', 0, 0, 0, -600);
 
-
-
-
-const bg = new BG(0, 0);
-
-const bg1 = new BG(0, -600);
-
-const uiBG = new UI(630, 10, 160, 110, 'rgba(255, 255, 255, 0.75)');
-const ui = new UI(635, 15, 150, 100, 'rgba(0, 168, 120, 0.75)');
+const uiBG = new SquareUI(630, 10, 160, 110, 'rgba(255, 255, 255, 1)');
+const ui = new SquareUI(635, 15, 150, 100, 'rgba(237, 28, 36, 1)');
 
 
 const bulletArr = [];
@@ -552,9 +562,8 @@ function leadingZero(time) {
   }
 
 function fire(name) {
-    name = new Bullet((player.x + 30), player.y - 40);
+    name = new Bullet((player.x + 30), (player.y - 10));
     bulletArr.push(name);
-     //  this.moveSound.play();
 }
 
 function delExplosion(name) {
@@ -568,9 +577,9 @@ function createExplosion(name, x, y) {
     name.explosionSound.play();
 }
 
-
+let e = 0;
 function bulletChecks() {
-    let e = 0;
+    
     for (let i = 0; i < allEnemies.length; i++) {
         for (let j = 0; j < bulletArr.length; j++) {
            if (bulletArr[j].x < allEnemies[i].x + allEnemies[i].width && 
@@ -604,37 +613,39 @@ function checkCollision() {
             player.x + player.width > allEnemies[i].x  &&
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
-            // console.log(`Hit detected! Enemy ${i} hit me in allEnemies array`);
-            // allEnemies[i].x -= 25;
-            // allEnemies[i].y -= 25;
+                
+                allEnemies[i].x -= 25;
+                allEnemies[i].y -= 25;
             
-            // player.x += 25;
-            // player.y += 25;
+                player.x += 25;
+                player.y += 25;
+
+            /* This is not completely done but could be used for accurate velocity transfers
             if (player.y + player.height <  allEnemies[i].y + allEnemies[i].height) {
                 player.y = allEnemies[i].y + allEnemies[i].height;
              } //else if (player.y + player.height >  allEnemies[i].y) {
             //     player.y -= allEnemies[i].y - allEnemies[i].height;
-            // }
+            // }*/
+
+            /* This is not completely done but could be used for accurate velocity transfers
             if (player.x + player.width > allEnemies[i].x + allEnemies[i].width) {
                 player.x = allEnemies[i].x + allEnemies[i].width;
             } else if (player.x + player.width < allEnemies[i].x + allEnemies[i].width) {
                 player.x = allEnemies[i].x - allEnemies[i].width;
-            }
-            
+            }*/
             
             if (h % 5 === 0) {
+                player.damage.play();
                 player.health--;
                 h++;
             }
-
-            console.log(`Health after hit: ${player.health}`);
         }
     }
 }
 
 
 function createEnemyShips(name, x, y) {
-    name = new Enemy('images/enemy-bug.png', x, y, 100, 70);
+    name = new Enemy('images/enemyShip.png', x, y, 75, 80);
     allEnemies.push(name);
 }
 
@@ -642,43 +653,23 @@ const player = new Player(200, 380);
 
 const score = new ScoreText("bold 18px Orbitron, sans-serif", "Score: ", 640, 40);
 
-const won = new Game();
+const won = new TitleScreen();
 
-const winText = new WinText("bold 24px Orbitron, sans-serif", "You've Conquered the Final Frontier!", "With a score of ", 180, 300, 260, 350);
+const winUI = new SquareUI(170, 220, 520, 250, 'rgba(237, 28, 36, 1)');
+const winText = new WinText("bold 24px Orbitron, sans-serif", "You've Conquered the Final Frontier!", "With a score of ", 180, 300, 280, 350);
+const winReturnText = new Text("bold 18px Orbitron, sans-serif", "Press 'Esc' to return to start screen", 240, 450);
+const winNewGameText = new FlashingText("bold 18px Orbitron, sans-serif", "Press 'Enter' to play again", 290, 420);
 
-const time = new TimeText("bold 18px Orbitron, sans-serif", "Time: ", 640, 60);
+
+const time = new TimeText("bold 18px Orbitron, sans-serif", "Time: ", 640, 70);
+
+const healthText = new Text("bold 18px Orbitron, sans-serif", "Health:", 640, 100);
+const health = new Health('images/Health.png', 720, 80, 732, 80, 744, 80);
 
 let bullet = new Bullet(player.x, player.y);
 
-const randSpeed1 = Math.floor(Math.random() * 6) + 1,
-      randSpeed2 = Math.floor(Math.random() * 6) + 1,
-      randSpeed3 = Math.floor(Math.random() * 6) + 1;
-
 const enemy0 = new Enemy('', 0, 0, 0, 0),
-      enemy1 = new Enemy('images/enemy-bug.png', 0, 60, 100, 70),
-      enemy2 = new Enemy('images/enemy-bug.png', 300, 140, 100, 70),
-      enemy3 = new Enemy('images/enemy-bug.png', 100, 140, 100, 70),
-      enemy4 = new Enemy('images/enemy-bug.png', 215, 220, 100, 70),
-      enemy5 = new Enemy('images/Rock.png', 415, 220, 87, 86),
-      allEnemies = [enemy1, enemy2, enemy3, enemy4, enemy5];
-console.log(`enemy1 speed: ${enemy1.speed}`);
-console.log(`enemy2 speed: ${enemy2.speed}`);
-console.log(`enemy3 speed: ${enemy3.speed}`);
-console.log(`enemy4 speed: ${enemy4.speed}`); 
-console.log(`enemy5 speed: ${enemy5.speed}`); 
-
-// if (time.timer[1] > 15) {
-//     let z = 0;
-//     if (z < 1) {
-//         let stepX = 0;
-//         for(let i = 6; i < 11; i++) {
-//             createEnemyShips(`enemy${i}`, stepX,  0);
-//             stepX += 150;
-//         }
-//         z++;
-//     }
-    
-// }
+      allEnemies = [];
 
 
 // This listens for key presses and sends the keys to your
