@@ -7,6 +7,7 @@ Welcome to the Final Frontier. Can you survive? How many points will you score?
 * Avoid taking damage. Each time an enemy ship hits you will lose a health bar.
 * You start with 3 health bars.
 * Destroy as many enemy ships as possible to get the highest score.
+* Enemies not destroyed come back around to attack after exiting bottom of the screen.
 * Game will launch first wave of enemies after 5 seconds.
 * Survive for a minute and a half (01:30) to win!
 
