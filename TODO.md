@@ -72,4 +72,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game)
     * Starting new game does not clear all previous enemies
     * Game over modal will not pop up after single time (unless page is reloaded)
-    * Restarting game after win or through game over modal caused screen scroll to blur render. Meaning any object crossing the path of blurred segment would be constantly traced and never erased. **[Fixed!]**s
+    * Restarting game after win or through game over modal caused screen scroll to blur render. Meaning any object crossing the path of blurred segment would be constantly traced and never erased. **[Fixed!]**
+    * When modal pops up it knocks the canvas element down
+    * Start menu music loop does not play after leaving start menu the first time.
+    * Modal window does not appear at correct size when browser window is full screen. **[Fixed!]**
