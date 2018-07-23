@@ -13,18 +13,18 @@ Welcome to the Final Frontier. Can you survive? How many points will you score?
 
 # Controls
 
-W moves player up.
-A moves player left.
-S moves player down.
-D moves player right.
+* W moves player up.
+* A moves player left.
+* S moves player down.
+* D moves player right.
 
-Spacebar shoots laser.
+* Spacebar shoots laser.
 
-Alternatively:
-Up arrow key moves player up.
-Left arrow key moves player left.
-Down arrow key moves player down.
-Right arrow key moves player right.
+* Alternatively:
+    * Up arrow key moves player up.
+    * Left arrow key moves player left.
+    * Down arrow key moves player down.
+    * Right arrow key moves player right.
 
 Note: current set up only allows a single button to be registered at anyone time.
 
