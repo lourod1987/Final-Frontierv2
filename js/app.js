@@ -24,7 +24,6 @@ class TitleScreen {
         this.gameState = 0;
         this.x = 0;
         this.y = 0;
-        this.flash = 0;
     }
 
     update() {
@@ -46,9 +45,6 @@ class BG {
         this.bg = bg;
         this.x = x;
         this.y = y;
-    }
-
-    scroll(dt) {
     }
 
     render() {
@@ -158,7 +154,7 @@ class FlashingText extends Text {
 
         ctx.font= this.font;
         ctx.fillStyle = "white";
-        
+
         ctx.fillText(this.text, this.x, this.y);
     }
 }
@@ -248,6 +244,45 @@ class Enemy {
         this.moveX = 0;
         // this.minBoundsY = 0;
         // this.maxBoundsY = 520;
+        // ctx.rotate(angleRadians) // for rotating asteroids
+        // radians = degrees * (Math.PI/180) //conversion to radians formula
+        // scale(x,y) multiplies the x and y values by a given factor
+        // It’s important to note that whatever transformations apply for all subsequent objects until you reverse them.
+        /*
+        example of how to use save() and restore() methods to reset ctx rendering state. These states can be stored:
+        The current transformation matrix (rotation, scaling, translation)
+        strokeStyle
+        fillStyle
+        font
+        globalAlpha
+        lineWidth
+        lineCap
+        lineJoin
+        miterLimit
+        shadowOffsetX
+        shadowOffsetY
+        shadowBlur
+        shadowColor
+        globalCompositeOperation
+        textAlign
+        textBaseline
+        The current clipping region
+
+        var c = document.querySelector("#c");
+        var ctx = c.getContext("2d");
+
+        ctx.fillStyle = "blue";
+        ctx.fillRect(0,0,50,50);
+
+        // Save state with blue fill
+        ctx.save();
+        ctx.fillStyle = "green";
+        ctx.fillRect(100,100,10,10);
+        // Restore to blue fill
+        ctx.restore();
+
+        ctx.fillRect(200,10,20,20);
+        */
     }
 
     update(dt) {
@@ -434,6 +469,23 @@ class Player {
     }
     
     render(dt) {
+        /*
+        Using createImageData, getImageData, and putImageData will allow me to add filter effects to canvas. 
+        Could be used to flash canvas on player loss of health
+        var data = ctx.getImageData(0, 0, 800, 600);
+
+        function paintGreen (imageData) {
+            var numPixels = imageData.data.length / 4       //there are 4 compenents for each pixel
+
+            for (let i = 0; i < numPixels; i++) {
+                imageData.data(i * 4 + 1) = 255;
+                imageData.data(i * 4 + 3) = 255;
+            }
+            ctx.putImageData(imageData, 0, 0);
+        }
+        paintGreen(data);
+        
+        */
         ctx.globalAlpha = 1.0;
         if (this.health === 2) {
             for (let i = 0; i < 100; i++)
