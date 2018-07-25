@@ -1,6 +1,10 @@
 .vscode
 *.scss
+*.sass
 *.ai
+archiveEngine.js
+matter.js
+matterTest.js
 enemy-bug.png
 GemBlue.png
 GemGreen.png
