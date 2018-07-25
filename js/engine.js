@@ -16,7 +16,7 @@ var Engine = (function(global) {
 
     const level1MusicLoop = document.getElementById("level1MusicLoop"),
           gameWinMusic = document.getElementById("gameWinMusicLoop"),
-          startMusic = document.getElementById("startMusicLoop");
+          startMusicLoop = document.getElementById("startMusicLoop");
 
     canvas.width = 800;
     canvas.height = 600;
@@ -46,20 +46,26 @@ var Engine = (function(global) {
         z = 0;
         score.score = 0;
         player.health = 3;
+        allEnemies = [];
+        bulletArr = [];
         ctx.clearRect(0,0,canvas.width,canvas.height);
         scroll.y = 0;
         scroll.y1 = -600;
 
-        if (allEnemies.length > 0) {
-            for (let j = 0; j <= allEnemies.length + 1; j++) {
-                allEnemies.splice(j, 1);
-            }
-        }
-        if (bulletArr.length > 0) {
-            for (let k = 0; k <= bulletArr.length + 1; k++) {
-                bulletArr.splice(k, 1);
-            }
-        }
+        // if (allEnemies.length > 0) {
+        //     for (let j = 0; j <= allEnemies.length; j++) {
+        //         // allEnemies.splice(j, 1);
+        //         delete allEnemies[j];
+        //         allEnemies.pop();
+        //     }
+        // }
+        // if (bulletArr.length > 0) {
+        //     for (let k = 0; k <= bulletArr.length; k++) {
+        //         // bulletArr.splice(k, 1);
+        //         delete bulletArr[k];
+        //         bulletArr.pop();
+        //     }
+        // }
         game.run = true;
         // gameController();
     }
@@ -342,7 +348,7 @@ var Engine = (function(global) {
         'images/blue_space_scape_by_heatstroke99-d331bty.png',
         'images/splashScreen_v1.png',
         'images/tileable-nebula.png',
-        'images/Rock.png',
+        // 'images/Rock.png',
         'images/Health.png',
         'images/particleBlue.png',
         'images/explosion.png',
