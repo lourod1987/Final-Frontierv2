@@ -3,18 +3,6 @@ class Game {
         this.run = true;
         this.gameState = 0;
     }
-        
-    handleInput(key) {
-        switch(key) {
-            case 'enter':
-                // this.run = false;
-                this.gameState = 1;
-                break;
-            case 'esc':
-                this.gameState = 0;
-                break;
-        }
-    }
 }
 
 class TitleScreen {
@@ -35,7 +23,15 @@ class TitleScreen {
     }
         
     handleInput(key) {
-
+        switch(key) {
+            case 'enter':
+            // this.run = false;
+                game.gameState = 1;
+                break;
+            case 'esc':
+                game.gameState = 0;
+                break;
+        }
     }
 }
 
@@ -127,7 +123,7 @@ class Text {
 
     render() {
         ctx.font= this.font;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = 'white';
         ctx.fillText(this.text, this.x, this.y);
     }
 }
@@ -153,7 +149,7 @@ class FlashingText extends Text {
         }
 
         ctx.font= this.font;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = 'white';
 
         ctx.fillText(this.text, this.x, this.y);
     }
@@ -169,7 +165,7 @@ class ScoreText extends Text {
 
     render() {
         ctx.font= this.font;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = 'white';
         
         ctx.fillText(this.text + this.score, this.x, this.y);
     }
@@ -186,7 +182,7 @@ class WinText extends Text {
 
     render() {
         ctx.font= this.font;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = 'white';
         ctx.fillText(this.text, this.x, this.y);
         ctx.fillText(this.text1 + score.score,  this.x1, this.y1);
     }
@@ -216,15 +212,15 @@ class TimeText extends Text {
 
     render() {
         ctx.font= this.font;
-        ctx.fillStyle = "white";
-        ctx.fillText(this.text + leadingZero(this.timer[0]) + ":" + leadingZero(this.timer[1]), this.x, this.y);
+        ctx.fillStyle = 'white';
+        ctx.fillText(this.text + leadingZero(this.timer[0]) + ':' + leadingZero(this.timer[1]), this.x, this.y);
     }
 
     leadingZero(time) {
         if (time <= 9) {
             time = `0${time}`;
-          }
-          return time;
+        }
+        return time;
     }
 }
 
@@ -412,7 +408,7 @@ class Bullet {
         this.maxBoundsX = 725;
         this.minBoundsY = 0;
         this.maxBoundsY = 525;
-        this.bulletSound = document.getElementById("bulletSound");
+        this.bulletSound = document.getElementById('bulletSound');
         this.i = 0;
     }
 
@@ -420,7 +416,7 @@ class Bullet {
         this.y -= 5;
     }
 
-    render(key) {
+    render() {
         ctx.drawImage(Resources.get(this.bullet), this.x, this.y);
     }
 
@@ -461,8 +457,8 @@ class Player {
         this.minBoundsY = 0;
         this.maxBoundsY = 545;
         this.health = 3;
-        // this.moveSound = document.getElementById("moveSound");
-        this.damage = document.getElementById("playerHit");
+        // this.moveSound = document.getElementById('moveSound');
+        this.damage = document.getElementById('playerHit');
     }
 
     update(dt) {
@@ -488,7 +484,7 @@ class Player {
         */
         ctx.globalAlpha = 1.0;
         if (this.health === 2) {
-            for (let i = 0; i < 100; i++)
+            for (let i = 0; i < 100; i++) {
                 if (i  < 30) {
                     ctx.globalAlpha = 0;
                 } else {
@@ -498,15 +494,16 @@ class Player {
                     // if (i  > 60) {
                     //     i = 0; 
                     // }
+                }
             }
         }
 
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
         
     }
-
-     handleInput(key) {
-       /* if (key === 'up' || key === 'w') {
+    
+    handleInput(key) {
+        /* if (key === 'up' || key === 'w') {
             if (key === 'w' && key === 'd') {
                 this.y -= 8;
                 this.x += 8;
@@ -538,27 +535,27 @@ class Player {
             case 'up':
             case 'w':
                 this.y -= 8;
-                // console.log(`current yPos Player: ${this.y}`);
-                //  this.moveSound.play();
+            // console.log(`current yPos Player: ${this.y}`);
+            //  this.moveSound.play();
                 break;
             case 'down':
             case 's':
                 this.y += 8;
-                // console.log(`current yPos Player: ${this.y}`);
-                //  this.moveSound.play();
+            // console.log(`current yPos Player: ${this.y}`);
+            //  this.moveSound.play();
                 break;
             case 'left':
             case 'a':
                 this.x -= 10;
-                //  this.moveSound.play();
+            //  this.moveSound.play();
                 break;
             case 'right':
             case 'd':
                 this.x += 10;
-                //  this.moveSound.play();
+            //  this.moveSound.play();
                 break;
-         }
-     }
+        }
+    }
 
     bounds() { 
         if (this.x >= this.maxBoundsX) {
@@ -581,7 +578,7 @@ class Explosion {
         this.explosion = 'images/explosion.png';
         this.x = x;
         this.y = y;
-        this.explosionSound = document.getElementById("explosionSound");
+        this.explosionSound = document.getElementById('explosionSound');
     }
 
     render() {
@@ -593,7 +590,7 @@ const game = new Game();
 
 const title = new TitleScreen();
 const splashImg = new BG('images/splashScreen_v1.png', 150, 50);
-const textTitle = new FlashingText("bold 24px Orbitron, sans-serif", "Press 'Enter' to Begin", 260, 460);
+const textTitle = new FlashingText('bold 24px Orbitron, sans-serif', 'Press "Enter" to Begin', 260, 460);
 
 
 
@@ -603,15 +600,14 @@ const uiBG = new SquareUI(630, 10, 160, 110, 'rgba(255, 255, 255, 1)');
 const ui = new SquareUI(635, 15, 150, 100, 'rgba(237, 28, 36, 1)');
 
 
-const bulletArr = [];
-const explosionArr = [];
+
 
 function leadingZero(time) {
     if (time <= 9) {
-      time = `0${time}`;
+        time = `0${time}`;
     }
     return time;
-  }
+}
 
 function fire(name) {
     name = new Bullet((player.x + 30), (player.y - 10));
@@ -620,7 +616,7 @@ function fire(name) {
 
 function delExplosion(name) {
     explosionArr.pop();
-    delete name;
+    // delete name;
 }
 
 function createExplosion(name, x, y) {
@@ -631,30 +627,33 @@ function createExplosion(name, x, y) {
 
 let e = 0;
 function bulletChecks() {
-    
     for (let i = 0; i < allEnemies.length; i++) {
         for (let j = 0; j < bulletArr.length; j++) {
-           if (bulletArr[j].x < allEnemies[i].x + allEnemies[i].width && 
+            if (bulletArr[j].x < allEnemies[i].x + allEnemies[i].width && 
                bulletArr[j].x + bulletArr[j].width > allEnemies[i].x  &&
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
-                   console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
-                   score.score += 10;
-                   console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
-                   createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
-                   e++;
                    
-                   allEnemies.splice(i, 1);
-                   bulletArr.splice(j, 1);      
-           }
+                console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
+                score.score += 10;
+                console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
+                createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
+                e++;
+                
+                delete allEnemies[i];
+                allEnemies.splice(i, 1);
+                delete bulletArr[j];
+                bulletArr.splice(j, 1);
+            }
         }
-   }
-
-   for (let i = 0; i < bulletArr.length; i++) {
-       if (bulletArr[i].y < -40) {
+    }
+   
+    for (let i = 0; i < bulletArr.length; i++) {
+        if (bulletArr[i].y < -40) {
+            delete bulletArr[i];
             bulletArr.splice(i, 1);
-       }
-   }
+        }
+    }
 }
 
 
@@ -666,11 +665,11 @@ function checkCollision() {
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
                 
-                allEnemies[i].x -= 25;
-                allEnemies[i].y -= 25;
-            
-                player.x += 25;
-                player.y += 25;
+            allEnemies[i].x -= 25;
+            allEnemies[i].y -= 25;
+        
+            player.x += 25;
+            player.y += 25;
 
             /* This is not completely done but could be used for accurate velocity transfers
             if (player.y + player.height <  allEnemies[i].y + allEnemies[i].height) {
@@ -703,25 +702,27 @@ function createEnemyShips(name, x, y) {
 
 const player = new Player(200, 380);
 
-const score = new ScoreText("bold 18px Orbitron, sans-serif", "Score: ", 640, 40);
+const score = new ScoreText('bold 18px Orbitron, sans-serif', 'Score: ', 640, 40);
 
 const won = new TitleScreen();
 
 const winUI = new SquareUI(170, 220, 520, 250, 'rgba(237, 28, 36, 1)');
-const winText = new WinText("bold 24px Orbitron, sans-serif", "You've Conquered the Final Frontier!", "With a score of ", 180, 300, 280, 350);
-const winReturnText = new Text("bold 18px Orbitron, sans-serif", "Press 'Esc' to return to start screen", 240, 450);
-const winNewGameText = new FlashingText("bold 18px Orbitron, sans-serif", "Press 'Enter' to play again", 290, 420);
+const winText = new WinText('bold 24px Orbitron, sans-serif', 'You Conquered the Final Frontier!', 'With a score of ', 180, 300, 280, 350);
+const winReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
+const winNewGameText = new FlashingText('bold 18px Orbitron, sans-serif', 'Press "Enter" to play again', 290, 420);
 
 
-const time = new TimeText("bold 18px Orbitron, sans-serif", "Time: ", 640, 70);
+const time = new TimeText('bold 18px Orbitron, sans-serif', 'Time: ', 640, 70);
 
-const healthText = new Text("bold 18px Orbitron, sans-serif", "Health:", 640, 100);
+const healthText = new Text('bold 18px Orbitron, sans-serif', 'Health:', 640, 100);
 const health = new Health('images/Health.png', 720, 80, 732, 80, 744, 80);
 
 let bullet = new Bullet(player.x, player.y);
 
-const enemy0 = new Enemy('', 0, 0, 0, 0),
-      allEnemies = [];
+const enemy0 = new Enemy('', 0, 0, 0, 0);
+let allEnemies = [],
+    bulletArr = [],
+    explosionArr = [];
 
 
 // This listens for key presses and sends the keys to your
@@ -759,8 +760,7 @@ document.addEventListener('keyup', function(e) {
         13: 'enter'
     };
 
-    // title.handleInput(allowedKeys[e.keyCode]);
-    game.handleInput(allowedKeys[e.keyCode]);
+    title.handleInput(allowedKeys[e.keyCode]);
 });
 
 // setTimeout( () => {
