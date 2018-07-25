@@ -1,3 +1,4 @@
+//This class is specifically for managing the games state, paused, running title screen, level 1 etc.
 class Game {
     constructor() {
         this.run = true;
@@ -5,6 +6,10 @@ class Game {
     }
 }
 
+/*
+UI creation components
+=======================
+*/
 class TitleScreen {
     constructor() {
         this.titleBG = 'images/blue_space_scape_by_heatstroke99-d331bty.png';
@@ -35,7 +40,7 @@ class TitleScreen {
     }
 }
 
-
+//places any image at designated x and y coordinates
 class BG {
     constructor(bg, x, y) {
         this.bg = bg;
@@ -48,7 +53,7 @@ class BG {
     }
 }
 
-
+//ScrollBG class creates screen scroll by placing and updating y coordinates of two tiled images
 class ScrollBG extends BG {
     constructor(bg, x, y, x1, y1) {
         super(bg, x, y);
@@ -71,7 +76,7 @@ class ScrollBG extends BG {
     }
 }
 
-
+//Health class places an image 3 times initially reduces based on curent player health
 class Health extends BG {
     constructor(bg, x, y, x1, y1, x2, y2) {
         super(bg, x, y);
@@ -94,7 +99,7 @@ class Health extends BG {
     }
 }
 
-
+//creates a square at the designated xy coordinates with a paticular width, height, and color
 class SquareUI {
     constructor(x, y, width, height, colorFill) {
         this.x = x;
@@ -110,8 +115,7 @@ class SquareUI {
     }
 }
 
-
-//change the class title names and inheritence around for text classes
+//Places text with font choice at designated xy coordinates
 class Text {
     constructor(font, text, x, y) {
         this.text = text;
@@ -128,6 +132,7 @@ class Text {
     }
 }
 
+//modifies Text class by creating text that flashes
 class FlashingText extends Text {
     constructor(font, text, x, y) {
         super(font, text, x, y);
@@ -150,12 +155,11 @@ class FlashingText extends Text {
 
         ctx.font= this.font;
         ctx.fillStyle = 'white';
-
         ctx.fillText(this.text, this.x, this.y);
     }
 }
 
-
+//Outputs current player score based on enemy units destroyed
 class ScoreText extends Text {
     constructor(font, text, x, y) {
         super(font, text, x, y);
@@ -171,7 +175,7 @@ class ScoreText extends Text {
     }
 }
 
-
+//Displays win screen text
 class WinText extends Text {
     constructor(font, text, text1, x, y, x1, y1) {
         super(font, text, x, y);
@@ -188,7 +192,7 @@ class WinText extends Text {
     }
 }
 
-
+//This class displays and updates the in game timer
 class TimeText extends Text {
     constructor(font, text, x, y) {
         super(font, text, x, y);
@@ -224,7 +228,11 @@ class TimeText extends Text {
     }
 }
 
-
+/*
+Game entities
+================
+*/
+//Creates, moves, and controlls most of the spawning logic for game enemies
 class Enemy {
     constructor(sprite, x, y, width, height) {
         this.sprite = sprite;
@@ -397,6 +405,7 @@ class Enemy {
     }
 }
 
+//Creates, moves, and gives audio to bullet objects
 class Bullet {
     constructor(x, y) {
         this.bullet = 'images/laser.png';
@@ -443,7 +452,7 @@ class Bullet {
     }
 }
 
-
+//Creates, places initially, enables user control, sets health, and bounds of player avatar
 class Player {
     constructor(x, y) {
         this.sprite = 'images/playerShip_v3.png';
@@ -572,7 +581,7 @@ class Player {
     }
 }
 
-
+//Creates an explosion on screen 
 class Explosion {
     constructor(x, y) {
         this.explosion = 'images/explosion.png';
