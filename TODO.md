@@ -66,11 +66,11 @@ List of things to get done / ideas I want to implement (tentative):
         * Use socket.io to create a 2 player co-op *{optional}*
 
 * Bugs / Crashes **{Critical to Fix}**
-    * When there are many enemies on screen occassionally game will crash citing allEnemies[i] undefined.
+    * When there are many enemies / bullets on screen occassionally game will crash citing allEnemies[i] undefined.
     * Reseting game more then once causes function calls to speed up **[Fixed!]**
     * Explosions don't render or disappear as they should
     * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game)
-    * Starting new game does not clear all previous enemies
+    * Starting new game does not clear all previous enemies **[Fixed!]**
     * Game over modal will not pop up after single time (unless page is reloaded)
     * Restarting game after win or through game over modal caused screen scroll to blur render. Meaning any object crossing the path of blurred segment would be constantly traced and never erased. **[Fixed!]**
     * When modal pops up it knocks the canvas element down
