@@ -30,7 +30,6 @@ class TitleScreen {
     handleInput(key) {
         switch(key) {
             case 'enter':
-            // this.run = false;
                 game.gameState = 1;
                 break;
             case 'esc':
@@ -219,13 +218,6 @@ class TimeText extends Text {
         ctx.fillStyle = 'white';
         ctx.fillText(this.text + leadingZero(this.timer[0]) + ':' + leadingZero(this.timer[1]), this.x, this.y);
     }
-
-    leadingZero(time) {
-        if (time <= 9) {
-            time = `0${time}`;
-        }
-        return time;
-    }
 }
 
 /*
@@ -234,8 +226,11 @@ Game entities
 */
 //Creates, moves, and controlls most of the spawning logic for game enemies
 class Enemy {
-    constructor(sprite, x, y, width, height) {
+    constructor(sprite, x, y, width, height, shoots) {
         this.sprite = sprite;
+        this.enemyShip1 = 'images/enemyShip_v1.png';
+        this.enemyShip2 = 'images/enemyShip_v2.png';
+        this.asteroid = 'images/asteroid.png';
         this.x = x;
         this.y = y;
         this.width = width;
@@ -246,6 +241,7 @@ class Enemy {
         this.i = 0;
         this.s = 0;
         this.moveX = 0;
+        this.shoots = shoots;
         // this.minBoundsY = 0;
         // this.maxBoundsY = 520;
         // ctx.rotate(angleRadians) // for rotating asteroids
@@ -296,23 +292,25 @@ class Enemy {
             this.y = -20;
         }
         
-        if (this.i < 80) {
-            this.x++;
-            this.i++;
-        } else {
-            this.x--;
-            if (this.i  > 160) {
-                this.i = 0; 
+        if (this.sprite !== this.asteroid) {
+            if (this.i < 80) {
+                this.x++;
+                this.i++;
+            } else {
+                this.x--;
+                if (this.i  > 160) {
+                    this.i = 0; 
+                }
+                this.i++;
             }
-            this.i++;
         }
     }
 
     spawn() {
         if (time.timer[1] === 5) {
             let stepX = 0;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  0);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip1, stepX,  0);
                 stepX += 150;
                 this.s++;
             }
@@ -320,17 +318,23 @@ class Enemy {
 
         if (time.timer[1] === 20) {
             let stepX = 0;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  0);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip1, stepX,  0);
                 stepX += 150;
+                this.s++;
+            }
+            stepX = 0;
+            for(let i = 0; i < 4; i++) {
+                createEnemyShips(`enemies${this.s}`, this.asteroid, stepX,  0);
+                stepX += 250;
                 this.s++;
             }
         }
 
         if (time.timer[1] === 30) {
             let stepX = 0;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  0);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`,this.enemyShip2, stepX,  0);
                 stepX += 150;
                 this.s++;
             }
@@ -338,17 +342,23 @@ class Enemy {
 
         if (time.timer[1] === 40) {
             let stepX = 0;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  0);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip2, stepX,  0);
                 stepX += 150;
+                this.s++;
+            }
+            stepX = 0;
+            for(let i = 0; i < 4; i++) {
+                createEnemyShips(`enemies${this.s}`, this.asteroid, stepX,  0);
+                stepX += 250;
                 this.s++;
             }
         }
 
         if (time.timer[1] === 50) {
             let stepX = 0;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  0);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip1, stepX,  0);
                 stepX += 150;
                 this.s++;
             }
@@ -357,10 +367,16 @@ class Enemy {
         if (time.timer[0] === 1 && time.timer[1] === 0) {
             let stepX = 0;
             let stepY = -80;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip1, stepX,  stepY);
                 stepX += 200;
                 stepY += 20;
+                this.s++;
+            }
+            stepX = 0;
+            for(let i = 0; i < 4; i++) {
+                createEnemyShips(`enemies${this.s}`, this.asteroid, stepX,  0);
+                stepX += 250;
                 this.s++;
             }
         }
@@ -368,10 +384,18 @@ class Enemy {
         if (time.timer[0] === 1 && time.timer[1] === 10) {
             let stepX = 0;
             let stepY = -80;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip2, stepX,  stepY);
                 stepX += 200;
                 stepY += 20;
+                this.s++;
+            }
+            stepX = 0;
+            stepY = -80;
+            for(let i = 0; i < 3; i++) {
+                createEnemyShips(`enemies${this.s}`,this.enemyShip1, stepX,  stepY);
+                stepX += 300;
+                stepY += 80;
                 this.s++;
             }
         }
@@ -379,9 +403,17 @@ class Enemy {
         if (time.timer[0] === 1 && time.timer[1] === 20) {
             let stepX = 0;
             let stepY = -80;
-            for(let i = 6; i < 11; i++) {
-                createEnemyShips(`enemies${this.s}`, stepX,  stepY);
+            for(let i = 0; i < 6; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip2, stepX,  stepY);
                 stepX += 200;
+                stepY += 40;
+                this.s++;
+            }
+            stepX = 0;
+            stepY = -80;
+            for(let i = 0; i < 3; i++) {
+                createEnemyShips(`enemies${this.s}`, this.enemyShip2, stepX,  stepY);
+                stepX += 300;
                 stepY += 20;
                 this.s++;
             }
@@ -417,8 +449,6 @@ class Bullet {
         this.maxBoundsX = 725;
         this.minBoundsY = 0;
         this.maxBoundsY = 525;
-        this.bulletSound = document.getElementById('bulletSound');
-        this.i = 0;
     }
 
     update() {
@@ -429,14 +459,35 @@ class Bullet {
         ctx.drawImage(Resources.get(this.bullet), this.x, this.y);
     }
 
-    handleInput(key) {
-        if (key === 'spacebar' /*&& this.i % 2 === 0*/) {
-            fire(`bullet${this.i}`);
-            this.bulletSound.play();
-            console.log(`bullet${this.i}`);
-            
+    bounds() { 
+        if (this.x >= this.maxBoundsX) {
+            this.bullet = null;
+        } else if (this.x <= this.minBoundsX) {
+            this.bullet = null;
+        } 
+        
+        if (this.y <= this.minBoundsY) {
+            this.bullet = null;
         }
-        this.i++;
+    }
+}
+
+//Creates, moves, and gives audio to bullet objects
+class EnemyBullet extends Bullet{
+    constructor(x, y, minBoundsX, maxBoundsX, minBoundsY, maxBoundsY) {
+        super(x, y, minBoundsX, maxBoundsX, minBoundsY, maxBoundsY);
+        this.bullet = 'images/enemyLaser.png';
+        this.width = 20;
+        this.height = 30;
+        this.shotSound = document.getElementById('enemyShotSound');
+    }
+
+    update() {
+        this.y += 5;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.bullet), this.x, this.y);
     }
 
     bounds() { 
@@ -447,6 +498,8 @@ class Bullet {
         } 
         
         if (this.y <= this.minBoundsY) {
+            this.bullet = null;
+        } else if (this.y >= this.maxBoundsY) {
             this.bullet = null;
         }
     }
@@ -466,8 +519,11 @@ class Player {
         this.minBoundsY = 0;
         this.maxBoundsY = 545;
         this.health = 3;
+        this.b = 0;
         // this.moveSound = document.getElementById('moveSound');
         this.damage = document.getElementById('playerHit');
+        this.shot = document.getElementById('playerShot');
+        this.bulletSound = document.getElementById('bulletSound');
     }
 
     update(dt) {
@@ -489,12 +545,12 @@ class Player {
             ctx.putImageData(imageData, 0, 0);
         }
         paintGreen(data);
-        
         */
+
         ctx.globalAlpha = 1.0;
         if (this.health === 2) {
             for (let i = 0; i < 100; i++) {
-                if (i  < 30) {
+                if (i  < 60) {
                     ctx.globalAlpha = 0;
                 } else {
                     // player.filter = 'opacity(100%)';
@@ -512,34 +568,6 @@ class Player {
     }
     
     handleInput(key) {
-        /* if (key === 'up' || key === 'w') {
-            if (key === 'w' && key === 'd') {
-                this.y -= 8;
-                this.x += 8;
-            }
-            this.y -= 8;
-            // console.log(`current yPos Player: ${this.y}`);
-            //  this.moveSound.play();
-        }
-        
-        if (key === 'down' || key === 's') {
-            this.y += 8;
-            // console.log(`current yPos Player: ${this.y}`);
-            //  this.moveSound.play();
-        }
-        
-        if (key === 'left' || key === 'a') {
-            this.x -= 10;
-            // console.log(`current xPos Player: ${this.x}`);
-            //  this.moveSound.play();
-        }
-
-        if (key === 'right' || key === 'd') {
-            this.x += 10;
-            // console.log(`current xPos Player: ${this.x}`);
-            //  this.moveSound.play();
-        }*/
-
         switch(key) {
             case 'up':
             case 'w':
@@ -564,6 +592,14 @@ class Player {
             //  this.moveSound.play();
                 break;
         }
+
+        if (key === 'spacebar') {
+            fire(`bullet${this.b}`);
+            this.bulletSound.play();
+            console.log(`bullet${this.b}`);
+            
+        }
+        this.b++;
     }
 
     bounds() { 
@@ -584,7 +620,7 @@ class Player {
 //Creates an explosion on screen 
 class Explosion {
     constructor(x, y) {
-        this.explosion = 'images/explosion.png';
+        this.explosion = 'images/explosion_v1.png';
         this.x = x;
         this.y = y;
         this.explosionSound = document.getElementById('explosionSound');
@@ -609,7 +645,15 @@ const uiBG = new SquareUI(630, 10, 160, 110, 'rgba(255, 255, 255, 1)');
 const ui = new SquareUI(635, 15, 150, 100, 'rgba(237, 28, 36, 1)');
 
 
-
+function enemyFire() {
+    for (let i = 0; i < allEnemies.length; i++){
+        if (allEnemies[i].shoots === true) {
+            let enemyShot = new EnemyBullet((allEnemies[i].x + 30), (allEnemies[i].y - 10));
+            enemyBullets.push(enemyShot);
+            enemyShot.shotSound.play();
+        }
+    }
+}
 
 function leadingZero(time) {
     if (time <= 9) {
@@ -623,15 +667,15 @@ function fire(name) {
     bulletArr.push(name);
 }
 
-function delExplosion(name) {
-    explosionArr.pop();
-    // delete name;
-}
-
 function createExplosion(name, x, y) {
     name = new Explosion(x, y);
     explosionArr.push(name);
     name.explosionSound.play();
+}
+
+function delExplosion() {
+    explosionArr.pop();
+    // delete name;
 }
 
 let e = 0;
@@ -644,7 +688,16 @@ function bulletChecks() {
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    
                 console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
-                score.score += 10;
+                if (allEnemies[i].sprite === 'images/asteroid.png') {
+                    score.score += 10;
+                }
+                if (allEnemies[i].sprite === 'images/enemyShip_v1.png') {
+                    score.score += 20;
+                }
+                if (allEnemies[i].sprite === 'images/enemyShip_v2.png') {
+                    score.score += 30;
+                }
+                
                 console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
                 createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
                 e++;
@@ -656,11 +709,40 @@ function bulletChecks() {
             }
         }
     }
-   
+    
     for (let i = 0; i < bulletArr.length; i++) {
         if (bulletArr[i].y < -40) {
             delete bulletArr[i];
             bulletArr.splice(i, 1);
+        }
+    }
+}
+
+function enemyBulletChecks() {
+    for (let i = 0; i < enemyBullets.length; i++) {
+        if (player.x < enemyBullets[i].x + enemyBullets[i].width && 
+            player.x + player.width > enemyBullets[i].x  &&
+            player.y < enemyBullets[i].y + enemyBullets[i].height &&
+            player.y + player.height > enemyBullets[i].y) {
+                player.health--;
+                if (player.health > 0) {
+                    player.shot.play();
+                }
+                
+                if (player.health === 0) {
+                    createExplosion(`explosion${e}`, player.x, player.y);
+                    e++;
+                }
+                
+                delete enemyBullets[i];
+                enemyBullets.splice(i, 1);
+        }
+    }
+   
+    for (let i = 0; i < enemyBullets.length; i++) {
+        if (enemyBullets[i].y > 620) {
+            delete enemyBullets[i];
+            enemyBullets.splice(i, 1);
         }
     }
 }
@@ -674,11 +756,11 @@ function checkCollision() {
             player.y < allEnemies[i].y + allEnemies[i].height &&
             player.y + player.height > allEnemies[i].y) {
                 
-            allEnemies[i].x -= 25;
-            allEnemies[i].y -= 25;
+            allEnemies[i].x -= 30;
+            allEnemies[i].y -= 30;
         
-            player.x += 25;
-            player.y += 25;
+            player.x += 40;
+            player.y += 40;
 
             /* This is not completely done but could be used for accurate velocity transfers
             if (player.y + player.height <  allEnemies[i].y + allEnemies[i].height) {
@@ -693,6 +775,10 @@ function checkCollision() {
             } else if (player.x + player.width < allEnemies[i].x + allEnemies[i].width) {
                 player.x = allEnemies[i].x - allEnemies[i].width;
             }*/
+            if (player.health === 0) {
+                createExplosion(`explosion${e}`, player.x, player.y);
+                e++;
+            }
             
             if (h % 5 === 0) {
                 player.damage.play();
@@ -704,9 +790,32 @@ function checkCollision() {
 }
 
 
-function createEnemyShips(name, x, y) {
-    name = new Enemy('images/enemyShip.png', x, y, 75, 80);
+function createEnemyShips(name, sprite, x, y) {
+    let width,
+        length,
+        shoots;
+
+    switch(sprite) {
+        case 'images/enemyShip_v1.png':
+            width = 69;
+            length = 79;
+            shoots = false;
+            break;
+        case 'images/enemyShip_v2.png':
+            width = 80;
+            length = 80;
+            shoots = true;
+            break;
+        case 'images/asteroid.png':
+            width = 70;
+            length = 90;
+            shoots = false;
+            break;
+    }
+
+    name = new Enemy(sprite, x, y, width, length, shoots);
     allEnemies.push(name);
+    
 }
 
 const player = new Player(200, 380);
@@ -720,6 +829,10 @@ const winText = new WinText('bold 24px Orbitron, sans-serif', 'You Conquered the
 const winReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
 const winNewGameText = new FlashingText('bold 18px Orbitron, sans-serif', 'Press "Enter" to play again', 290, 420);
 
+const gameOverUI = new SquareUI(170, 220, 520, 250, 'rgba(237, 28, 36, 1)');
+const loseReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
+const loseNewGameText = new Text('bold 18px Orbitron, sans-serif', 'Press "Enter" to play again', 290, 420);
+
 
 const time = new TimeText('bold 18px Orbitron, sans-serif', 'Time: ', 640, 70);
 
@@ -731,6 +844,7 @@ let bullet = new Bullet(player.x, player.y);
 const enemy0 = new Enemy('', 0, 0, 0, 0);
 let allEnemies = [],
     bulletArr = [],
+    enemyBullets = [],
     explosionArr = [];
 
 
@@ -756,34 +870,9 @@ document.addEventListener('keydown', function(e) {
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
-        32: 'spacebar',
-        13: 'enter'
-    };
-
-    bullet.handleInput(allowedKeys[e.keyCode]);
-});
-
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
         27: 'esc',
         13: 'enter'
     };
 
     title.handleInput(allowedKeys[e.keyCode]);
 });
-
-// setTimeout( () => {
-//     let t = 1;
-//     while (t > 0) {
-//         (function (e) {
-//             var allowedKeys = {
-//                 32: 'spacebar'
-//             };
-        
-//             bullet.handleInput(allowedKeys[e.keyCode]);
-        
-//         })();
-//         t++;
-//     }
-// }, 400);
-
