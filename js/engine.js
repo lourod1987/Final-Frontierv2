@@ -48,6 +48,7 @@ var Engine = (function(global) {
         allEnemies = [];
         bulletArr = [];
         enemyBullets = [];
+        upgradesArr = [];
         ctx.clearRect(0,0,canvas.width,canvas.height);
         scroll.y = 0;
         scroll.y1 = -600;
@@ -165,6 +166,8 @@ var Engine = (function(global) {
 
         function renderLoss() {
             gameOverUI.render();
+            gameOverText.render();
+            gameOverText1.render();
             loseNewGameText.render();
             loseReturnText.render();
         }
@@ -289,6 +292,7 @@ var Engine = (function(global) {
         }
     }
 
+
     function level1Update(dt) {
         if (player.health <= 0) {
             game.gameState = 5;
@@ -300,11 +304,9 @@ var Engine = (function(global) {
             setTimeout( () => {delExplosion();}, 200);
         }
 
-        let r = 0;
-        if (explosionArr.length > 0) {
-            explosionArr[r].render();
-            r++;
-        }
+        explosionArr.forEach(function(explosion) {
+            explosion.render();
+        });
         
         time.update(dt);
         level1UpdateEntities(dt);
@@ -315,8 +317,9 @@ var Engine = (function(global) {
         scroll.scroll(dt);
         player.update(dt);
         
+        
         if (bulletArr.length > 0) {
-            bulletChecks();
+            setTimeout( () => {bulletChecks();}, 50);
         }
     }
 
