@@ -77,12 +77,8 @@ class ScrollBG extends BG {
 
 //Health class places an image 3 times initially reduces based on curent player health
 class Health extends BG {
-    constructor(bg, x, y, x1, y1, x2, y2) {
+    constructor(bg, x, y) {
         super(bg, x, y);
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
     }
 
     render() {
@@ -90,10 +86,13 @@ class Health extends BG {
             ctx.drawImage(Resources.get(this.bg), this.x, this.y);
         }
         if (player.health > 1) {
-            ctx.drawImage(Resources.get(this.bg), this.x1, this.y1);
+            ctx.drawImage(Resources.get(this.bg), this.x + 12, this.y);
         }
         if (player.health > 2) {
-            ctx.drawImage(Resources.get(this.bg), this.x2, this.y2);
+            ctx.drawImage(Resources.get(this.bg), this.x + 24, this.y);
+        }
+        if (player.health > 3) {
+            ctx.drawImage(Resources.get(this.bg), this.x + 36, this.y);
         }
     }
 }
@@ -437,6 +436,19 @@ class Enemy {
     }
 }
 
+class Upgrades extends Enemy {
+    constructor(sprite, x, y, width, height) {
+        super(sprite, x, y, width, height);
+        this.healthDrop = 'GemGreen.png';
+        this.shield = 'GemBlue.png';
+        this.triShot = 'GemOrange.png';
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
 //Creates, moves, and gives audio to bullet objects
 class Bullet {
     constructor(x, y) {
@@ -473,7 +485,7 @@ class Bullet {
 }
 
 //Creates, moves, and gives audio to bullet objects
-class EnemyBullet extends Bullet{
+class EnemyBullet extends Bullet {
     constructor(x, y, minBoundsX, maxBoundsX, minBoundsY, maxBoundsY) {
         super(x, y, minBoundsX, maxBoundsX, minBoundsY, maxBoundsY);
         this.bullet = 'images/enemyLaser.png';
@@ -512,6 +524,7 @@ class Player {
         this.particle = 'images/particleBlue.png';
         this.x = x;
         this.y = y;
+        // this.fireRate = 0;
         this.width = 50;
         this.height = 40;
         this.minBoundsX = 5;
@@ -519,6 +532,7 @@ class Player {
         this.minBoundsY = 0;
         this.maxBoundsY = 545;
         this.health = 3;
+        this.shield = 0;
         this.b = 0;
         // this.moveSound = document.getElementById('moveSound');
         this.damage = document.getElementById('playerHit');
@@ -567,39 +581,52 @@ class Player {
         
     }
     
-    handleInput(key) {
+    handleInput(key) { 
         switch(key) {
             case 'up':
             case 'w':
-                this.y -= 8;
-            // console.log(`current yPos Player: ${this.y}`);
-            //  this.moveSound.play();
+                this.y -= 10;
                 break;
             case 'down':
             case 's':
-                this.y += 8;
-            // console.log(`current yPos Player: ${this.y}`);
-            //  this.moveSound.play();
+                this.y += 10;
                 break;
             case 'left':
             case 'a':
                 this.x -= 10;
-            //  this.moveSound.play();
                 break;
             case 'right':
             case 'd':
                 this.x += 10;
-            //  this.moveSound.play();
+                break;
+            case 'e':
+                this.x += 10;
+                this.y -= 10;
+                break;
+            case 'q':
+                this.x -= 10;
+                this.y -= 10;
+                break;
+            case 'z':
+                this.x -= 10;
+                this.y += 10;
+                break;
+            case 'c':
+                this.x += 10;
+                this.y += 10;
                 break;
         }
 
         if (key === 'spacebar') {
-            fire(`bullet${this.b}`);
-            this.bulletSound.play();
-            console.log(`bullet${this.b}`);
-            
-        }
-        this.b++;
+            // if (this.fireRate === 5) {
+                fire(`bullet${this.b}`);
+                this.bulletSound.play();
+                // this.fireRate = 0;
+            // }
+            // this.fireRate++;
+            this.b++;
+        } 
+        
     }
 
     bounds() { 
@@ -687,7 +714,6 @@ function bulletChecks() {
                bulletArr[j].y < allEnemies[i].y + allEnemies[i].height &&
                bulletArr[j].y + bulletArr[j].height > allEnemies[i].y) {
                    
-                console.log(`Bullet ${bulletArr[i]} hit Enemy ${allEnemies[i]}`);
                 if (allEnemies[i].sprite === 'images/asteroid.png') {
                     score.score += 10;
                 }
@@ -697,15 +723,15 @@ function bulletChecks() {
                 if (allEnemies[i].sprite === 'images/enemyShip_v2.png') {
                     score.score += 30;
                 }
-                
-                console.log(`Player score is now ${player.score} for destroying Enemy ${allEnemies[i]}`);
+        
                 createExplosion(`explosion${e}`, allEnemies[i].x, allEnemies[i].y);
                 e++;
-                
-                delete allEnemies[i];
-                allEnemies.splice(i, 1);
-                delete bulletArr[j];
+
                 bulletArr.splice(j, 1);
+                // delete allEnemies[i];
+                allEnemies.splice(i, 1);
+                // delete bulletArr[j];
+                
             }
         }
     }
@@ -724,18 +750,18 @@ function enemyBulletChecks() {
             player.x + player.width > enemyBullets[i].x  &&
             player.y < enemyBullets[i].y + enemyBullets[i].height &&
             player.y + player.height > enemyBullets[i].y) {
-                player.health--;
-                if (player.health > 0) {
-                    player.shot.play();
-                }
-                
-                if (player.health === 0) {
-                    createExplosion(`explosion${e}`, player.x, player.y);
-                    e++;
-                }
-                
-                delete enemyBullets[i];
-                enemyBullets.splice(i, 1);
+            player.health--;
+            if (player.health > 0) {
+                player.shot.play();
+            }
+            
+            if (player.health === 0) {
+                createExplosion(`explosion${e}`, player.x, player.y);
+                e++;
+            }
+            
+            delete enemyBullets[i];
+            enemyBullets.splice(i, 1);
         }
     }
    
@@ -818,6 +844,25 @@ function createEnemyShips(name, sprite, x, y) {
     
 }
 
+
+function createUpgrades(name, sprite, x, y) {
+    let width,
+        length;
+
+    switch(sprite) {
+        case 'images/GemGreen.png':
+            break;
+        case 'images/GemBlue.png':
+            break;
+        case 'images/GemOrange.png':
+            break;
+    }
+
+    name = new Upgrades(sprite, x, y, 95, 104);
+    upgradesArr.push(name);
+    
+}
+
 const player = new Player(200, 380);
 
 const score = new ScoreText('bold 18px Orbitron, sans-serif', 'Score: ', 640, 40);
@@ -829,15 +874,17 @@ const winText = new WinText('bold 24px Orbitron, sans-serif', 'You Conquered the
 const winReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
 const winNewGameText = new FlashingText('bold 18px Orbitron, sans-serif', 'Press "Enter" to play again', 290, 420);
 
-const gameOverUI = new SquareUI(170, 220, 520, 250, 'rgba(237, 28, 36, 1)');
-const loseReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
+const gameOverUI = new SquareUI(170, 220, 520, 250, 'rgba(0, 0, 0, 1)');
+const gameOverText = new Text('bold 28px Orbitron, sans-serif', 'Game Over', 350, 300);
+const gameOverText1 = new Text('bold 28px Orbitron, sans-serif', "You're Space Dust!", 300, 335);
 const loseNewGameText = new Text('bold 18px Orbitron, sans-serif', 'Press "Enter" to play again', 290, 420);
+const loseReturnText = new Text('bold 18px Orbitron, sans-serif', 'Press "Esc" to return to start screen', 240, 450);
 
 
 const time = new TimeText('bold 18px Orbitron, sans-serif', 'Time: ', 640, 70);
 
 const healthText = new Text('bold 18px Orbitron, sans-serif', 'Health:', 640, 100);
-const health = new Health('images/Health.png', 720, 80, 732, 80, 744, 80);
+const health = new Health('images/Health.png', 720, 80);
 
 let bullet = new Bullet(player.x, player.y);
 
@@ -845,11 +892,12 @@ const enemy0 = new Enemy('', 0, 0, 0, 0);
 let allEnemies = [],
     bulletArr = [],
     enemyBullets = [],
-    explosionArr = [];
+    explosionArr = [],
+    upgradesArr = [];
 
 
 // This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Player.handleInput() method.
 document.addEventListener('keydown', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -860,11 +908,21 @@ document.addEventListener('keydown', function(e) {
         65: 'a',
         83: 's',
         68: 'd',
-        32: 'spacebar',
+        69: 'e',
+        81: 'q',
+        67: 'c',
+        90: 'z',
         13: 'enter'
     };
 
-    
+    player.handleInput(allowedKeys[e.keyCode]);
+});
+
+document.addEventListener('keyup', function(e) {
+    var allowedKeys = {
+        32: 'spacebar',
+    };
+
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
