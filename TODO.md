@@ -4,12 +4,12 @@ List of things to get done / ideas I want to implement (tentative):
 
 * Art
     * Create Player ship image **[done!]**
-    * Create 3 different enemy ship images
+    * Create 3 different enemy ship images **[done!]** (third is asteroid)
     * Create Asteriod image / varying sizes
     * Create Player Bullet(s) image **[done!]**
     * Create Player Health image **[done!]**
-    * Create Enemy Bullet image
-    * Create Explosion image
+    * Create Enemy Bullet image **[done!]**
+    * Create Explosion image **[done!]**
     * Create or find a unique vertically tileable image for three levels *{optional}*
     * Create Title screen image **[done!]**
     * Find/Set game fonts **[done!]**
@@ -19,11 +19,11 @@ List of things to get done / ideas I want to implement (tentative):
 * Audio
     * Find or create Music for game levels (unique for each *{optional}*) **[done!]**
     * Title screen music *{optional}* **[done!]**
-    * Enemy shot sound effects
+    * Enemy shot sound effects **[done!]**
     * Player + enemy collision sound effect **[done!]**
     * Player hit by enemy bullet sound effect *{optional}*)
-    * Player unit destroyed
-    * Game over sound effect
+    * Player unit destroyed **[done!]**
+    * Game over sound effect (not necessary)
     * Enemy hit by player bullet (for when enemy can take more then a single hit)
     * Unique Boss Music *{optional}*
     * Boss sound effects for varying attacks (depends on design) *{optional}*
@@ -67,12 +67,12 @@ List of things to get done / ideas I want to implement (tentative):
 
 * Bugs / Crashes **{Critical to Fix}**
     * When there are many enemies / bullets on screen occassionally game will crash citing allEnemies[i] undefined.
+    * Explosions don't render or disappear as they should **[Fixed!]**
     * Reseting game more then once causes function calls to speed up **[Fixed!]**
-    * Explosions don't render or disappear as they should
-    * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game)
+    * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game) **[Fixed!]**
     * Starting new game does not clear all previous enemies **[Fixed!]**
-    * Game over modal will not pop up after single time (unless page is reloaded)
+    * Game over modal will not pop up after single time  **[Fixed!]** (removed modal)
     * Restarting game after win or through game over modal caused screen scroll to blur render. Meaning any object crossing the path of blurred segment would be constantly traced and never erased. **[Fixed!]**
-    * When modal pops up it knocks the canvas element down
-    * Start menu music loop does not play after leaving start menu the first time.
-    * Modal window does not appear at correct size when browser window is full screen. **[Fixed!]**
+    * When modal pops up it knocks the canvas element down  **[Fixed!]** (removed modal)
+    * Start menu music loop does not play after leaving start menu the first time. **[Fixed!]**
+    * Modal window does not appear at correct size when browser window is full screen. **[Fixed!]** (removed modal)
