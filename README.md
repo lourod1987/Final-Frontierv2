@@ -3,13 +3,17 @@ Final Frontier
 
 Welcome to the Final Frontier. Can you survive? How many points will you score?
 
+# To run the game
+    * If you are downloading the files simply open the index.html from the directory where the rest of the game files are located in your favorite browser.
+    * Alternatively you could visit the live link at http://www.luisrodrigueziii.com/final-frontier.html.
+
 # Rules
-* Avoid taking damage. Each time an enemy ship hits you will lose a health bar.
+* Avoid taking damage. Each time an enemy ship hits or shoots your ship you will lose a health bar.
 * You start with 3 health bars.
 * Destroy as many enemy ships as possible to get the highest score.
-* Enemies not destroyed come back around to attack after exiting bottom of the screen.
+* Enemies not destroyed come back around to attack again after exiting bottom of the screen.
 * Game will launch first wave of enemies after 5 seconds.
-* Survive for a minute and a half (01:30) to win!
+* Survive for a minute and a half (01:35) to win!
 
 # Controls
 
@@ -18,7 +22,12 @@ Welcome to the Final Frontier. Can you survive? How many points will you score?
 * S moves player down.
 * D moves player right.
 
-* Spacebar shoots laser.
+* E moves the player diagonally to the top right.
+* Q moves the player diagnoally to the top left.
+* C moves the player diagnoally to the bottom right.
+* Z moves the player diagnoally to the bottom left.
+
+* Spacebar shoots laser on keyup.
 
 * Alternatively:
     * Up arrow key moves player up.
@@ -29,16 +38,9 @@ Welcome to the Final Frontier. Can you survive? How many points will you score?
 Note: current set up only allows a single button to be registered at any one time.
 
 # Bug / Crash workarounds
-    * Don't fire laser bullets too quickly and it should avoid the game crashing.
-    * If game does crash refresh the browser page.
-    * If you make it to the game win screen. Press 'Esc' and then press 'Enter' to play a new game.
-    * If modal window does not pop up on game over refresh the browser page.
+    * Game no longer hangs on the bug explained in Known bugs. Fire as fast as you please.
+
+    Note: that the error does still occur but does not effect gameplay.
 
 # Known Bugs / Crashes
     * When there are many enemies on screen occassionally game will crash citing allEnemies[i] undefined.
-    * Explosions don't render or disappear as they should
-    * Game win screen does not allow you to immediately jump back into gameplay (Pressing Enter at Win Screen Does not start new game)
-    * Starting new game does not clear all previous enemies
-    * Game over modal will not pop up after single time (unless page is reloaded)
-    * When modal pops up it knocks the canvas element down.
-    * Start menu music loop does not play after leaving start menu the first time.
