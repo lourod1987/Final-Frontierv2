@@ -1,3 +1,4 @@
+'use strict';
 //This class is specifically for managing the games state, paused, running title screen, level 1 etc.
 class Game {
     constructor() {
@@ -75,7 +76,7 @@ class ScrollBG extends BG {
     }
 }
 
-//Health class places an image 3 times initially reduces based on curent player health
+//Health class places an image 3 times initially, reduces images rendered based on the curent player health
 class Health extends BG {
     constructor(bg, x, y) {
         super(bg, x, y);

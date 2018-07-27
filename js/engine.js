@@ -2,6 +2,7 @@
             Redone Engine Build Code (for readability and architecture) 
 =====================================================================================
 */
+'use strict';
 var Engine = (function(global) {
 
     var doc = global.document,
