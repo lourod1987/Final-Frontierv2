@@ -34,8 +34,6 @@ var Engine = (function(global) {
                 ctx.clearRect(0,0,canvas.width,canvas.height);
                 gameWin();
         }
-        
-        // win.requestAnimationFrame(gameController);
     }
 
     //Resets all gameplay related values to original state.
@@ -53,7 +51,6 @@ var Engine = (function(global) {
         scroll.y = 0;
         scroll.y1 = -600;
         game.run = true;
-        // gameController();
     }
 
     //startScreen is the game loop for the first screen a user views
@@ -197,7 +194,8 @@ var Engine = (function(global) {
         }
     }
 
-    let z = 0;
+    let z = 0; //locks spawning so that it only occurs a single time
+    //level1EnemySpawn creates enemy units at a designated time
     function level1EnemySpawn() {
         if (time.timer[1] === 5 && z < 1) {
             enemy0.spawn();
@@ -240,7 +238,8 @@ var Engine = (function(global) {
         }
     }
 
-    let w = 0;
+    let w = 0; //locks enemy firing so that it only occurs a single time
+    //enemyShoots allows specific units to fire a single time at the set intervals
     function enemyShoots() {
         if (time.timer[1] === 35 && w < 1) {
             enemyFire();
@@ -292,7 +291,7 @@ var Engine = (function(global) {
         }
     }
 
-
+    //updates the state of all objects in level1
     function level1Update(dt) {
         if (player.health <= 0) {
             game.gameState = 5;
@@ -315,7 +314,6 @@ var Engine = (function(global) {
         checkCollision();
         enemyBulletChecks();
         scroll.scroll(dt);
-        player.update(dt);
         
         
         if (bulletArr.length > 0) {
@@ -323,6 +321,7 @@ var Engine = (function(global) {
         }
     }
 
+    //called from level1update this updates entities in the game
     function level1UpdateEntities(dt) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
@@ -338,10 +337,10 @@ var Engine = (function(global) {
             bullet.update();
         });
 
-        player.update(dt); //?
         player.handleInput(); //?
     }
 
+    //renders all objects in level1
     function level1Render(dt) {
         scroll.render(dt);
         uiBG.render();
@@ -353,7 +352,8 @@ var Engine = (function(global) {
         level1RenderEntities(dt);
     }
 
-    function level1RenderEntities(dt) {
+    //called from level1Render this updates the render all entities in the game
+    function level1RenderEntities() {
         enemyBullets.forEach(function(bullet) {
             bullet.render();
         });
@@ -372,10 +372,11 @@ var Engine = (function(global) {
             });
         }
         if(player.health > 0) {
-            player.render(dt);
+            player.render();
         }
     }
 
+    //loads required resources
     Resources.load([
         'images/blue_space_scape_by_heatstroke99-d331bty.png',
         'images/splashScreen_v1.png',
@@ -390,7 +391,7 @@ var Engine = (function(global) {
         'images/enemyShip_v2.png',
         'images/playerShip_v3.png'
     ]);
-    Resources.onReady(gameController);
+    Resources.onReady(gameController); //once required resources are loaded the gameController function is called
 
     global.ctx = ctx;
 })(this);
