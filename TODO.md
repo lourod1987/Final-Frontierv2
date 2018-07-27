@@ -29,7 +29,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Boss sound effects for varying attacks (depends on design) *{optional}*
 
 * Programming
-    * Get explosions fully working
+    * Get explosions fully working **[done!]**
     * Get particle effects working (mainly for ship booster, possibly for explosion) *{optional}*
     * Get Title screen running, game (multiple lvls), loss state, win state, credits (each pushes into new state) **[done!]** (credits and multiple levels will be easy to add)
     * Get Title screen menu (start game, with options for sound / muting, controls display)
@@ -42,7 +42,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Get timer displayed in game **[done!]**
     * Create enemy spawning pattern **[done!]** (just missing helper function for more efficient enemy creation)
     * Randomize enemy spawning pattern *{optional}*
-    * Get some enemy units to fire
+    * Get some enemy units to fire **[done!]**
     * Get back and forth (or random) enemy movemnt on x axis **[done!]** (can easily add in random variation)
     * Script in Boss event at end of final level *{optional}*
     * Script in Boss behavior with unique attack patterns and health bar (or visible dmg using img swap) *{optional}*
@@ -76,3 +76,7 @@ List of things to get done / ideas I want to implement (tentative):
     * When modal pops up it knocks the canvas element down  **[Fixed!]** (removed modal)
     * Start menu music loop does not play after leaving start menu the first time. **[Fixed!]**
     * Modal window does not appear at correct size when browser window is full screen. **[Fixed!]** (removed modal)
+
+* Refactoring
+    * Use a switch for the Enemy spawning method instead of if statements.
+    * Can run checkCollisions and most likely a few other functions as methods inside of the appropriate classes.
