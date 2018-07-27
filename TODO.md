@@ -21,7 +21,7 @@ List of things to get done / ideas I want to implement (tentative):
     * Title screen music *{optional}* **[done!]**
     * Enemy shot sound effects **[done!]**
     * Player + enemy collision sound effect **[done!]**
-    * Player hit by enemy bullet sound effect *{optional}*)
+    * Player hit by enemy bullet sound effect **[done!]**
     * Player unit destroyed **[done!]**
     * Game over sound effect (not necessary)
     * Enemy hit by player bullet (for when enemy can take more then a single hit)
