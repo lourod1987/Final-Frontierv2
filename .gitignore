@@ -19,3 +19,5 @@ splashScreen.png
 100873__xythe__space2a.wav
 396231__romariogrande__tentacle-wedding.mp3
 Jump11.wav
+dist/
+js/extras/es5-*.js
