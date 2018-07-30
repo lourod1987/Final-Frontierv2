@@ -478,7 +478,6 @@ class EnemyBullet extends Bullet {
 class Player {
     constructor(x, y) {
         this.sprite = 'images/playerShip_v3.png';
-        this.particle = 'images/particleBlue.png';
         this.x = x;
         this.y = y;
         this.width = 50;
