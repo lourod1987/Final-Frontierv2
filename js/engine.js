@@ -44,6 +44,8 @@ var Engine = (function(global) {
         w = 0;
         score.score = 0;
         player.health = 3;
+        player.x = 200;
+        player.y = 380;
         allEnemies = [];
         bulletArr = [];
         enemyBullets = [];
@@ -80,6 +82,7 @@ var Engine = (function(global) {
             startMusicLoop.pause();
             startMusicLoop.currentTime = 0;
             startScreenMusic = false;
+            // debugger;
             gameController();
         }
     }
@@ -384,7 +387,6 @@ var Engine = (function(global) {
         'images/tileable-nebula.png',
         'images/asteroid.png',
         'images/Health.png',
-        'images/particleBlue.png',
         'images/explosion_v1.png',
         'images/laser.png',
         'images/enemyLaser.png',
