@@ -76,6 +76,7 @@ List of things to get done / ideas I want to implement (tentative):
     * When modal pops up it knocks the canvas element down  **[Fixed!]** (removed modal)
     * Start menu music loop does not play after leaving start menu the first time. **[Fixed!]**
     * Modal window does not appear at correct size when browser window is full screen. **[Fixed!]** (removed modal)
+    * Not sure how but I've introduced a new bug. Sometimes the game will not render when moving from the title screen to level1. Unsure why at the moment.
 
 * Refactoring
     * Use a switch for the Enemy spawning method instead of if statements.
